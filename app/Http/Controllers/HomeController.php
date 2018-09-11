@@ -19,7 +19,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
         $this->dashboardObj = new User();
     }
     /**
@@ -70,21 +69,26 @@ class HomeController extends Controller
         }
         else
         {
-            echo "<pre>";
-            print_r($friendship_records);
             foreach ($friendship_records as $key) {
                 # code...
                 $status = $key->status;
             }
-            if($status == 0 || $status == 2)
+            if($status != 0)
             {
-
+  
             }
-            die;
+            else
+            {
+             $update = Friendship::update('friendship', ['status'=>0],['sender_id'=>$sender_id,'receiver_id'=>$receiver_id]);
+            }
         }
-       /* return redirect('friendlist')->with(['success'=>'friend request successfully sent','code'=>'1','id'=>$id]);*/
+        return redirect('friendlist')->with(['success'=>'friend request successfully sent']);
     }
 
+    public function cancelFriendRequest($id)
+    {
+
+    }
     /**
      * @DateOfCreation         23 August 2018
      * @ShortDescription       Destroy the session and Make the Auth Logout

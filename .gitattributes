@@ -1,5 +1,2 @@
-* text=auto
-*.css linguist-vendored
-*.scss linguist-vendored
-*.js linguist-vendored
-CHANGELOG.md export-ignore
+# LF (not CRLF) for line endings
+* text eol=lf
