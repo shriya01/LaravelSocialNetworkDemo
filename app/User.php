@@ -4,10 +4,27 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
+use Illuminate\Support\Facades\DB;
+use Config;
 class User extends Authenticatable
 {
     use Notifiable;
+    /**
+     *@ShortDescription Table for the users.
+     *
+     * @var String
+     */
+    protected $table = 'users';
+
+     /**
+    * @DateOfCreation         07 Sep 2018
+    * @ShortDescription       Load the dashboard view 
+    * @return                 View
+    */
+    public function queryData($id){
+
+    return User::where('user_role_id', '!=' , Config::get('constants.ADMIN_ROLE'))->where('id', '!=' , $id)->get();
+   }
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +32,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'user_first_name','user_last_name','user_role_id','user_status','user_email', 'password','user_created_at',
     ];
 
     /**
@@ -24,6 +41,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'user_password','remember_token',
     ];
 }
