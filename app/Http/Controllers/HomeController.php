@@ -22,7 +22,8 @@ class HomeController extends Controller
         $this->dashboardObj = new User();
     }
     /**
-     * Show the application dashboard.
+     * @DateOfCreation   12 September 2018
+     * @ShortDescription Show the user welcome page
      *
      * @return \Illuminate\Http\Response
      */
@@ -31,8 +32,10 @@ class HomeController extends Controller
         $user_id =  Auth::user()->id;
         return view('user.welcome');
     }
+
     /**
-     * [image description]
+     * @DateOfCreation    12 September 2018
+     * @ShortDescription  This function takes the user profile pic image validates and save to the destination
      * @param  Request $request [description]
      * @return [type]           [description]
      */
@@ -46,9 +49,12 @@ class HomeController extends Controller
         DB::table('user_profiles')->insert($insert_array);
         return redirect()->back()->withInput()->with('success', 'image upload successfully.');
     }
+
     /**
-     * [viewFriendlist description]
-     * @return [type] [description]
+     * @DateOfCreation    12 September 2018
+     * @ShortDescription  This Function helps logged in user to view all users to whom they can send friend request
+     * @param  [int] $id
+     * @return Redirect Response
      */
     public function viewFriendlist()
     {
@@ -58,7 +64,13 @@ class HomeController extends Controller
         $data['friendship_records'] = Friendship::selectAsArray('friendship', ['sender_id','receiver_id','status'], ['sender_id'=>$id]);
         return view('user.viewFriendlist', $data);
     }
-    /** [viewFriendRequests description] */
+
+    /**
+     * @DateOfCreation    12 September 2018
+     * @ShortDescription  This Function helps logged in user to view all friend requests
+     * @param  [int] $id
+     * @return Redirect Response
+     */
     public function viewFriendRequests()
     {
         $id =  Auth::user()->id;
@@ -67,8 +79,12 @@ class HomeController extends Controller
         $data['friendship_records'] = Friendship::selectAsArray('friendship', ['sender_id','receiver_id','status'], ['receiver_id'=>$id]);
         return view('user.viewFriendRequests', $data);
     }
+
     /**
-     * [addFriend description]
+     * @DateOfCreation    12 September 2018
+     * @ShortDescription  This Function helps logged in user to send friend request
+     * @param  [int] $id
+     * @return Redirect Response
      */
     public function addFriend($id)
     {
@@ -89,11 +105,13 @@ class HomeController extends Controller
             }
         }
     }
-    /**
-     * [confirmFriend description]
-     * @param  [type] $id [description]
-     * @return [type]     [description]
-     */
+
+     /**
+      * @DateOfCreation    12 September 2018
+      * @ShortDescription  This Function helps logged in user to accept other user sent friend request
+      * @param  [int] $id
+      * @return Redirect Response
+      */
     public function confirmFriend($id)
     {
         $sender_id = $id;
@@ -113,10 +131,12 @@ class HomeController extends Controller
             }
         }
     }
+    
     /**
-     * [rejectFriendRequest description]
-     * @param  [type] $id [description]
-     * @return [type]     [description]
+     * @DateOfCreation    12 September 2018
+     * @ShortDescription  This Function helps logged in user to reject other user sent friend request
+     * @param  [int] $id
+     * @return Redirect Response
      */
     public function rejectFriendRequest($id)
     {
@@ -137,10 +157,11 @@ class HomeController extends Controller
             }
         }
     }
+
     /**
      * @DateOfCreation    12 September 2018
      * @ShortDescription  This Function helps logged in user to cancel their friend request
-     * @param  [int] $id 
+     * @param  [int] $id
      * @return Redirect Response
      */
     public function cancelFriendRequest($id)
@@ -153,7 +174,6 @@ class HomeController extends Controller
             return redirect('friendlist')->with(['success'=>'friend request successfully sent']);
         } else {
             foreach ($friendship_records as $key) {
-                # code...
                 $status = $key->status;
             }
             if ($status == 0) {
@@ -162,6 +182,7 @@ class HomeController extends Controller
             }
         }
     }
+
     /**
      * @DateOfCreation         23 August 2018
      * @ShortDescription       Destroy the session and Make the Auth Logout
@@ -169,11 +190,8 @@ class HomeController extends Controller
      */
     public function getLogout()
     {
-        // logout from auth facade
         Auth::logout();
-        // destroy or clear session
         Session::flush();
-        // redirect to main page
         return redirect('/');
     }
 }

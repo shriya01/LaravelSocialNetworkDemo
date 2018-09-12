@@ -33,12 +33,10 @@ class DashboardController extends Controller
          * @var Array
          */
         $count = [];
-        //display no of users that are of user type
         $count['users']  = $this->adminobj->countRecords(['user_role_id'=>Config::get('constants.USER_ROLE')]);
-        //loads dashboard view with user number of records
         return view('admin.dashboard', compact('count'));
     }
-    
+
     /**
      * @DateOfCreation         23 August 2018
      * @ShortDescription       Load users view with list of all users
@@ -52,9 +50,7 @@ class DashboardController extends Controller
          * @var Array
          */
         $data = [];
-        //get all user record whose user type is not admin
         $data['users'] = $this->adminobj->getRecordsWhereKeyIsNotInArray('user_role_id', [Config::get('constants.ADMIN_ROLE')]);
-        //loads user list view with data
         return view('admin.users', $data);
     }
 }
