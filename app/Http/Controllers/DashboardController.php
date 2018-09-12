@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 use App\Admin;
 use App\User;
 use Config;
+
 class DashboardController extends Controller
 {
-    
- 
     /**
      * Create a new controller instance.
      *
@@ -20,6 +19,7 @@ class DashboardController extends Controller
         $this->adminobj = new Admin;
         $this->userobj  = new User;
     }
+
     /**
      * @DateOfCreation         23 August 2018
      * @ShortDescription       Load the dashboard view
@@ -38,7 +38,8 @@ class DashboardController extends Controller
         //loads dashboard view with user number of records
         return view('admin.dashboard', compact('count'));
     }
-        /**
+    
+    /**
      * @DateOfCreation         23 August 2018
      * @ShortDescription       Load users view with list of all users
      * @return                 View
