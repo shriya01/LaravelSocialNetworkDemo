@@ -18,13 +18,14 @@
             <h2 class="intro-text text-center"><strong>{{ __('messages.welcome') }}</strong></h2>
             <hr />
             <div class="container">
-                <?php 
-                $i=0;
-                ?>
+                         @foreach($users_profile_data as $key=>$value)
                 <!-- Single Product -->
                 <div class="col-12 col-sm-6 col-lg-4">
                     <!-- Product Image -->
                     <img style="width:200px; height:200px;" src="" alt="" />
+            <img style="width:200px; height:200px; border:1px solid grey; display: block;" src="{{ asset('public/files').'/'.$users_profile_data[$key]->profile_picture }}" alt="" />
+            
+            @endforeach
                     <!-- Product Description -->
                     <div class="product-description">
                         <a>
@@ -35,19 +36,11 @@
                         @csrf
                         <div class="form-group">
                             <input type="file" name="file" id="poster"  class="form-control" />
-                            <br/>
-                            <div class="progress">
-                                <div class="bar"></div>
-                            </div>
-                            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
-                <?php
-                $i++;
-                ?>
+             
             </div>
         </div>
         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>

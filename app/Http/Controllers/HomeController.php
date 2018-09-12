@@ -30,7 +30,8 @@ class HomeController extends Controller
     public function index()
     {
         $user_id =  Auth::user()->id;
-        return view('user.welcome');
+        $data['users_profile_data'] = Friendship::selectAsArray('user_profiles', ['user_id','profile_picture'],['user_id'=>$user_id]);
+        return view('user.welcome',$data);
     }
 
     /**
@@ -46,7 +47,17 @@ class HomeController extends Controller
         $fileName = request()->file('file')->getClientOriginalName();
         $fileMove= request()->file('file')->move(public_path('files'), $fileName);
         $insert_array = [ 'profile_picture'=>$fileName, 'user_id' => $user_id ];
-        DB::table('user_profiles')->insert($insert_array);
+        $users_profile_data = Friendship::selectAsArray('user_profiles', ['user_id','profile_picture'],['user_id'=>$user_id]);
+  
+        if(count($users_profile_data) == 0)
+        {
+                    DB::table('user_profiles')->insert($insert_array);
+
+        }
+        else
+        {
+           Friendship::update('user_profiles',['profile_picture'=>$fileName],['user_id'=>$user_id]);
+        }
         return redirect()->back()->withInput()->with('success', 'image upload successfully.');
     }
 
