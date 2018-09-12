@@ -7,7 +7,7 @@
             <ol class="breadcrumb">
                 <li><i class="fa fa-home"></i><a href="{{ url('/') }}/dashboard">{{ __('messages.home') }}</a></li>
                 <li><i class="fa fa-th-list"></i><a href="{{ url('/') }}/friendlist">{{ __('messages.friends_list') }}</a></li>
-                <li><i class="fa fa-th-list"></i>       
+                <li><i class="fa fa-th-list"><a href="{{ url('/') }}/friendrequests">{{__('messages.friend_requests')}}</a></i></li>
                 </li>
             </ol>
         </div>

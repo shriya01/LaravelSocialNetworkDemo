@@ -54,8 +54,19 @@ class HomeController extends Controller
     {
         $id =  Auth::user()->id;
         $data['users'] = $this->dashboardObj->queryData($id);
+        $data['users_profile_data'] = Friendship::selectAsArray('user_profiles', ['user_id','profile_picture']);
         $data['friendship_records'] = Friendship::selectAsArray('friendship', ['sender_id','receiver_id','status'],['sender_id'=>$id]);
         return view('user.viewFriendlist', $data);
+    }
+    /** [viewFriendRequests description] */
+    public function viewFriendRequests()
+    {
+        $id =  Auth::user()->id;
+        $data['users'] = $this->dashboardObj->queryData($id);
+                $data['users_profile_data'] = Friendship::selectAsArray('user_profiles', ['user_id','profile_picture']);
+
+        $data['friendship_records'] = Friendship::selectAsArray('friendship', ['sender_id','receiver_id','status'],['receiver_id'=>$id]);
+        return view('user.viewFriendRequests', $data);
     }
     /**
      * [addFriend description]
