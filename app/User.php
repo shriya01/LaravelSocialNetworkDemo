@@ -21,9 +21,9 @@ class User extends Authenticatable
     * @ShortDescription       Load the dashboard view 
     * @return                 View
     */
-    public function queryData(){
+    public function queryData($id){
 
-    return User::where('user_role_id', '!=' , Config::get('constants.ADMIN_ROLE'))->get()->toArray();
+    return User::where('user_role_id', '!=' , Config::get('constants.ADMIN_ROLE'))->where('id', '!=' ,$id)->get()->toArray();
    }
     /**
      * The attributes that are mass assignable.
