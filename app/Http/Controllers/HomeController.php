@@ -54,6 +54,7 @@ class HomeController extends Controller
     {
         $id =  Auth::user()->id;
         $data['users'] = $this->dashboardObj->queryData($id);
+        $data['friendship_records'] = Friendship::selectAsArray('friendship', ['sender_id','receiver_id','status'],['sender_id'=>$id]);
         return view('user.viewFriendlist', $data);
     }
     /**
@@ -66,6 +67,7 @@ class HomeController extends Controller
         $friendship_records = Friendship::select('friendship', ['sender_id','receiver_id','status'], ['sender_id'=>$sender_id,'receiver_id'=>$receiver_id]);
         if (count($friendship_records) == 0) {
             Friendship::insert('friendship', ['sender_id'=>$sender_id,'receiver_id'=>$receiver_id]);
+            return redirect('friendlist')->with(['success'=>'friend request successfully sent']);
         }
         else
         {
@@ -75,16 +77,21 @@ class HomeController extends Controller
             }
             if($status != 0)
             {
-  
+                $update = Friendship::update('friendship', ['status'=>0],['sender_id'=>$sender_id,'receiver_id'=>$receiver_id]);
+                return redirect('friendlist')->with(['success'=>'friend request successfully sent','code'=>'1','id'=>$id]);
             }
             else
             {
-             $update = Friendship::update('friendship', ['status'=>0],['sender_id'=>$sender_id,'receiver_id'=>$receiver_id]);
+                echo "else";
+                die;
             }
         }
-        return redirect('friendlist')->with(['success'=>'friend request successfully sent']);
     }
-
+    /**
+     * [cancelFriendRequest description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function cancelFriendRequest($id)
     {
 
