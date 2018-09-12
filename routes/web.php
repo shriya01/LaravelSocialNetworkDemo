@@ -33,6 +33,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('/admin', 'AdminController@getLogin');
 	Route::post('/admin', 'AdminController@postLogin');
 	Route::get('/dashboard', ['as'=>'dashboard','uses'=>'DashboardController@index']);
+    Route::get('/users', ['as'=>'users','uses'=>'DashboardController@users']);
 });
 Route::get('/home', 'HomeController@index')->name('home');
 

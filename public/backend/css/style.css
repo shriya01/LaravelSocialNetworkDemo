@@ -7549,7 +7549,6 @@ ul.amounts li {
 
     width: 65px;
 
-    padding:5px 8px;
 
 }
 
@@ -7566,6 +7565,7 @@ ul.amounts li {
 .dataTables_filter label {
 
     width: 100%;
+    padding-right: 5%;
 
 }
 
@@ -7584,7 +7584,10 @@ ul.amounts li {
     border-top: 1px solid #ddd;
 
 }
-
+.dataTables_paginate
+{
+    padding: 0.50em;
+}
 
 
 .dataTables_paginate.paging_bootstrap.pagination li {

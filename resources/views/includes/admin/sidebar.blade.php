@@ -11,10 +11,6 @@
          <span>{{ __('messages.users') }}</span>
        </a>
      </li>
-     <li>
-       <a class="" href="{{ url('/') }}/adminBlogs">
-         <span>{{ __('messages.blogs') }}</span>
-       </a>
-     </li>
+    
     </ul>
 </div>

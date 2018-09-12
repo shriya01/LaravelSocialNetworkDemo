@@ -138,9 +138,10 @@ class HomeController extends Controller
         }
     }
     /**
-     * [cancelFriendRequest description]
-     * @param  [type] $id [description]
-     * @return [type]     [description]
+     * @DateOfCreation    12 September 2018
+     * @ShortDescription  This Function helps logged in user to cancel their friend request
+     * @param  [int] $id 
+     * @return Redirect Response
      */
     public function cancelFriendRequest($id)
     {

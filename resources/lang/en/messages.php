@@ -58,5 +58,8 @@ return [
     'leave_type'=>'Leave Type',
     'show_leave'=>'My Leaves',
     'leave_duration'=>'Leave Duration',
-    'leave_slot'=>'Leave Slot'
+    'leave_slot'=>'Leave Slot',
+    'friend_requests' => 'Friend Requests',
+    'friends_list' => 'Friend Suggestion List',
+    'view'=>'View'
 ];
