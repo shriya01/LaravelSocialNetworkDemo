@@ -38,8 +38,10 @@ $i=0;
 				<h3>{{$row['user_first_name'] }}&nbsp;{{$row['user_last_name'] }}</h3>
 			</a>
 			@if($key<$count)
-			@if(isset($friendship_records[$key]->status) && $friendship_records[$key]->status == 0 )
-			<a href="{{url('add',$row['id'])}}"><button class="btn btn-default">Request Sent</button></a>
+			@if(isset($friendship_records[$key]->status) && $friendship_records[$key]->status == 0)
+			<a href="{{url('cancel',$row['id'])}}"><button class="btn btn-default">Cancel Request</button></a>
+			@else
+			<a href="{{url('add',$row['id'])}}"><button class="btn btn-default">Add Friend</button></a>
 			@endif
 			@else
 			<a href="{{url('add',$row['id'])}}"><button class="btn btn-default">Add Friend</button></a>
