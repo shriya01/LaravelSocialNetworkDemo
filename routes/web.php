@@ -26,6 +26,7 @@ Route::group(['middleware' => ['web']], function () {
 	Route::get('cancel/{id}',['as'=>'cancel','uses'=>'HomeController@cancelFriendRequest']);
 	Route::get('confirm/{id}',['as'=>'confirm','uses'=>'HomeController@confirmFriend']);
 	Route::get('reject/{id}',['as'=>'reject','uses'=>'HomeController@rejectFriendRequest']);
+		Route::get('/friends', ['as'=>'friends','uses'=>'HomeController@Friendslist']);
 	Route::get('/logout', 'HomeController@getLogout');
 });
 // admin

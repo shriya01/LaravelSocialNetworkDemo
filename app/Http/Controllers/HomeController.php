@@ -24,14 +24,13 @@ class HomeController extends Controller
     /**
      * @DateOfCreation   12 September 2018
      * @ShortDescription Show the user welcome page
-     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $user_id =  Auth::user()->id;
-        $data['users_profile_data'] = Friendship::selectAsArray('user_profiles', ['user_id','profile_picture'],['user_id'=>$user_id]);
-        return view('user.welcome',$data);
+        $data['users_profile_data'] = Friendship::selectAsArray('user_profiles', ['user_id','profile_picture'], ['user_id'=>$user_id]);
+        return view('user.welcome', $data);
     }
 
     /**
@@ -47,16 +46,11 @@ class HomeController extends Controller
         $fileName = request()->file('file')->getClientOriginalName();
         $fileMove= request()->file('file')->move(public_path('files'), $fileName);
         $insert_array = [ 'profile_picture'=>$fileName, 'user_id' => $user_id ];
-        $users_profile_data = Friendship::selectAsArray('user_profiles', ['user_id','profile_picture'],['user_id'=>$user_id]);
-  
-        if(count($users_profile_data) == 0)
-        {
-                    DB::table('user_profiles')->insert($insert_array);
-
-        }
-        else
-        {
-           Friendship::update('user_profiles',['profile_picture'=>$fileName],['user_id'=>$user_id]);
+        $users_profile_data = Friendship::selectAsArray('user_profiles', ['user_id','profile_picture'], ['user_id'=>$user_id]);
+        if (count($users_profile_data) == 0) {
+            DB::table('user_profiles')->insert($insert_array);
+        } else {
+            Friendship::update('user_profiles', ['profile_picture'=>$fileName], ['user_id'=>$user_id]);
         }
         return redirect()->back()->withInput()->with('success', 'image upload successfully.');
     }
@@ -76,6 +70,18 @@ class HomeController extends Controller
         return view('user.viewFriendlist', $data);
     }
 
+    /**
+     * @DateOfCreation         11 September 2018
+     * @ShortDescription       Get the entire user request for the user from other users.
+     * @return                 Redirect Response
+     */
+    public function Friendslist()
+    {
+        $id =  Auth::user()->id;
+        $data['users'] = $this->dashboardObj->findFriendlist($id);
+        return view('user.Friendslist', $data);
+    }
+    
     /**
      * @DateOfCreation    12 September 2018
      * @ShortDescription  This Function helps logged in user to view all friend requests
@@ -117,12 +123,12 @@ class HomeController extends Controller
         }
     }
 
-     /**
-      * @DateOfCreation    12 September 2018
-      * @ShortDescription  This Function helps logged in user to accept other user sent friend request
-      * @param  [int] $id
-      * @return Redirect Response
-      */
+    /**
+     * @DateOfCreation    12 September 2018
+     * @ShortDescription  This Function helps logged in user to accept other user sent friend request
+     * @param  [int] $id
+     * @return Redirect Response
+     */
     public function confirmFriend($id)
     {
         $sender_id = $id;

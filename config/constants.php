@@ -13,4 +13,8 @@ return [
     'OPERATION_FAIED' => 0,
     'ID_NOT_CORRECT' => 2,
     'S_NO'			=>1,
+    'PENDING' => 0,
+    'ACCEPTED' => 1,
+    'DENIED' => 2,
+    'BLOCKED' => 3,
 ];

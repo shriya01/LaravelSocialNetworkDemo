@@ -8,6 +8,8 @@
 				<li><i class="fa fa-home"></i><a href="{{ url('/') }}/dashboard">{{ __('messages.home') }}</a></li>
 				<li><i class="fa fa-th-list"></i><a href="{{ url('/') }}/friendlist">{{ __('messages.friends_list') }}</a></li>
 				<li><i class="fa fa-th-list"><a href="{{ url('/') }}/friendrequests">{{__('messages.friend_requests')}}</a></i></li>
+				<li><i class="fa fa-th-list"><a href="{{ url('/') }}/friends">{{__('messages.friends')}}</a></i></li>
+
 			</li>
 		</ol>
 	</div>
@@ -40,6 +42,8 @@ $i=0;
 			@if($key<$count)
 			@if(isset($friendship_records[$key]->status) && $friendship_records[$key]->status == 0)
 			<a href="{{url('cancel',$row['id'])}}"><button class="btn btn-default">Cancel Request</button></a>
+			@elseif(isset($friendship_records[$key]->status) && $friendship_records[$key]->status == 1)
+			<a href="{{url('add',$row['id'])}}"><button class="btn btn-default">Friends</button></a>
 			@else
 			<a href="{{url('add',$row['id'])}}"><button class="btn btn-default">Add Friend</button></a>
 			@endif

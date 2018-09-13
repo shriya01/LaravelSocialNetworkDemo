@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\DB;
+use Config;
 
 /**
  * Friendship Class
@@ -15,7 +16,6 @@ use Illuminate\Support\Facades\DB;
  * @ShortDescription      This class contains basic database operation related functions using laravel db facade
  * @LongDescription
  */
-
 class Friendship
 {
     /**
@@ -60,7 +60,7 @@ class Friendship
     {
         DB::table($table_name)->where($where_array)->update($update_array);
     }
-        /**
+    /**
      * @DateOfCreation       17 August 2018
      * @DateOfDeprecated
      * @ShortDescription     This function selects the specified data from table

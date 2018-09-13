@@ -4,7 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
-
+/**
+ * Admin Class
+ *
+ * @package
+ * @subpackage            User
+ * @category              Model
+ * @DateOfCreation        17 August 2018
+ * @DateOfDeprecated
+ * @ShortDescription      This class contains code that deals with users with admin access
+ * @LongDescription
+ */
 class Admin extends Model
 {
     use Notifiable;
