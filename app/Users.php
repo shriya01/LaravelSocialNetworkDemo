@@ -1,10 +1,14 @@
 <?php
+
 namespace App;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-class User extends Authenticatable
+
+use Hootlex\Friendships\Traits\Friendable;
+use Illuminate\Database\Eloquent\Model;
+
+class Users extends Model
 {
-    use Notifiable;
+    use Friendable;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -13,6 +17,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password',
     ];
+
     /**
      * The attributes that should be hidden for arrays.
      *
