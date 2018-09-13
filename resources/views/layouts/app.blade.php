@@ -52,12 +52,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url('add/4')}}">Add Friend</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{url('confirm/2')}}">Accept Request</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{url('reject/7')}}">Reject Request</a>
-                            </li>
+                      
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url('remove')}}">Remove Friend</a>
                             </li>
@@ -69,6 +64,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url('friendlist')}}">Friend List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{url('pendingrequests')}}">Pending Requests</a>
                             </li>
                         </ul>
                         <li class="nav-item dropdown">

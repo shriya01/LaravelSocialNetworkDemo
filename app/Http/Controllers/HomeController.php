@@ -111,6 +111,15 @@ class HomeController extends Controller
      */
     public function showPendingRequests()
     {
-        $user->getPendingFriendships();
-    } 
+        $user_id =Auth::user()->id;
+        $user = Users::find($user_id);
+        $data['pendingRequests'] = $user->getPendingFriendships()->toArray();
+        $user_records= [];
+        foreach ($data['pendingRequests'] as $key => $value) {
+            $sender_id = $data['pendingRequests'][$key]['sender_id'];
+            array_push($user_records, Users::find($sender_id)->toArray());
+        }
+        $data['user_records'] =$user_records;
+        return view('user.pendingRequests', $data);
+    }
 }

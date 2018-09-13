@@ -23,6 +23,7 @@ Route::get('remove', ['as'=>'remove','uses'=>'HomeController@removeFriend']);
 Route::get('block/{id}', ['as'=>'block','uses'=>'HomeController@blockUser']);
 Route::get('unblock/{id}', ['as'=>'unblock','uses'=>'HomeController@unblockUser']);
 Route::get('friendlist', ['as'=>'friendlist','uses'=>'HomeController@getFriendList']);
+Route::get('pendingrequests', ['as'=>'pendingrequests','uses'=>'HomeController@showPendingRequests']);
 
 Auth::routes();
 
