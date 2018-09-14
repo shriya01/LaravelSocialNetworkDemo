@@ -16,14 +16,17 @@ Route::get('/', function () {
 });
 
 
-Route::get('add/{id}', ['as'=>'add','uses'=>'HomeController@addFriend']);
-Route::get('confirm/{id}', ['as'=>'confirm','uses'=>'HomeController@confirmFriendRequest']);
-Route::get('reject/{id}', ['as'=>'reject','uses'=>'HomeController@rejectFriendRequest']);
-Route::get('remove', ['as'=>'remove','uses'=>'HomeController@removeFriend']);
-Route::get('block/{id}', ['as'=>'block','uses'=>'HomeController@blockUser']);
-Route::get('unblock/{id}', ['as'=>'unblock','uses'=>'HomeController@unblockUser']);
-Route::get('friendlist', ['as'=>'friendlist','uses'=>'HomeController@getFriendList']);
-Route::get('pendingrequests', ['as'=>'pendingrequests','uses'=>'HomeController@showPendingRequests']);
+Route::get('add/{id}', ['as'=>'add','uses'=>'UserController@addFriend']);
+Route::get('confirm/{id}', ['as'=>'confirm','uses'=>'UserController@confirmFriendRequest']);
+Route::get('reject/{id}', ['as'=>'reject','uses'=>'UserController@rejectFriendRequest']);
+Route::get('remove', ['as'=>'remove','uses'=>'UserController@removeFriend']);
+Route::get('block/{id}', ['as'=>'block','uses'=>'UserController@blockUser']);
+Route::get('unblock/{id}', ['as'=>'unblock','uses'=>'UserController@unblockUser']);
+Route::get('friendlist', ['as'=>'friendlist','uses'=>'UserController@getFriendList']);
+Route::get('pendingrequests', ['as'=>'pendingrequests','uses'=>'UserController@showPendingRequests']);
+Route::get('friendSuggestionList', ['as'=>'pendingrequests','uses'=>'UserController@friendSuggestionList']);
+
+Route::get('cancel/{id}', ['as'=>'cancel','uses'=>'UserController@cancelFriendRequest']);
 
 Auth::routes();
 

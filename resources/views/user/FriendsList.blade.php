@@ -9,7 +9,7 @@
 			</div>
 			@endif
 		</div>
-				<div class="col-md-8">
+		<div class="col-md-8">
 			@if (session('success'))
 			<div class="alert alert-success" role="alert">
 				{{ session('success') }}
@@ -20,18 +20,18 @@
 </div>
 <div class="container">
 	<div class="row">
-		@foreach ($user_records as $key => $value)
-		@if($user_records[$key]['id'] != Auth::user()->id)
-		<div class="col-sm-4">
+		@foreach ($friends as $key => $value)
+		<div class="col-sm-5">
 			<div class="card" >
 				<div class="card-body">
-					<h4 class="card-title">{{ ucwords($user_records[$key]['name']) }}</h4>
-					<a href="{{url('confirm/'.$user_records[$key]['id'])}}" class="btn btn-primary">Confirm Request</a>
-					<a href="{{url('reject/'.$user_records[$key]['id'])}}" class="btn btn-danger">Delete Request</a>
+					<h4 class="card-title">{{ ucwords($friends[$key]['name']) }}</h4>
+					<a href="" class="btn btn-primary">View Profile</a>
+					<a class="btn btn-primary" href="{{url('remove/'.$friends[$key]['id'])}}">Remove Friend</a>
+					<a class="btn btn-primary" href="{{url('block/'.$friends[$key]['id'])}}">Block user</a>
 				</div>
 			</div>
+			<hr />
 		</div>
-		@endif
 		@endforeach
 	</div>
 </div>

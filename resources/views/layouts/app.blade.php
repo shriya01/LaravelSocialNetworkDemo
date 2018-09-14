@@ -50,17 +50,7 @@
                         @else
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{url('add/4')}}">Add Friend</a>
-                            </li>
-                      
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{url('remove')}}">Remove Friend</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{url('block/2')}}">block user</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{url('unblock/2')}}">unblock user</a>
+                                <a class="nav-link" href="{{url('friendSuggestionList')}}">Add New Friends</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url('friendlist')}}">Friend List</a>
