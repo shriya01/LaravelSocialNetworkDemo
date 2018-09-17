@@ -46,7 +46,7 @@ class User extends Authenticatable
     protected $hidden = [
         'user_password','remember_token',
     ];
-        /**
+    /**
      * @DateOfCreation         12 September 2018
      * @ShortDescription       Get the entire pending user request for the user from other users.
      * @param  int $id
@@ -61,7 +61,7 @@ class User extends Authenticatable
                 ->where('receiver_id', '=', $id)
                 ->get();
     }
-      /**
+    /**
      * @DateOfCreation         07 Sep 2018
      * @ShortDescription       Load the dashboard view
      * @return                 View
@@ -70,5 +70,12 @@ class User extends Authenticatable
     {
         return User::where('user_role_id', '!=', Config::get('constants.ADMIN_ROLE'))->where('id', '!=', $id)->get()->toArray();
     }
-
+    /**
+     * [verifyUser description]
+     * @return [type] [description]
+     */
+    public function verifyUser()
+    {
+        return $this->hasOne('App\VerifyUser');
+    }
 }
