@@ -8,7 +8,7 @@ use  Illuminate\Http\Request;
 use Validator;
 use Auth;
 use Config;
-
+use App\User;
 class LoginController extends Controller
 {
     /*
@@ -39,11 +39,6 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
-    }
-
-    public function username()
-    {
-        return 'user_email';
     }
 
     /**
