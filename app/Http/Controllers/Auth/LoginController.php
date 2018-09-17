@@ -40,6 +40,12 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function username()
+    {
+        return 'user_email';
+    }
+
     /**
     * @DateOfCreation         06 sep 2018
     * @ShortDescription       Load the login view for admi

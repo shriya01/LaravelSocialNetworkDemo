@@ -36,16 +36,18 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => ['web','guest']], function () {
 
 // Register Routes
-Route::get('/register', 'Auth\RegisterController@getRegister');
+Route::get('/register', 'Auth\RegisterController@getRegister')->name('register');
 Route::post('/register', 'Auth\RegisterController@postRegister');
 Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 
 // Login Routes
 Route::get('/login',['as' => 'login', 'uses'=>'Auth\LoginController@getLogin']);
 Route::post('/login','Auth\LoginController@postLogin');
-
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 });
 // Logout Route
-
 Route::get('/logout', 'HomeController@getLogout');

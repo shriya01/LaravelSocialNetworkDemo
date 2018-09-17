@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 use Config;
-
+use Illuminate\Auth\Passwords\CanResetPassword;
 /**
  * User Class
  *
@@ -78,4 +78,5 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\VerifyUser');
     }
+
 }
