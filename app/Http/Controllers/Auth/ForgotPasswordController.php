@@ -44,23 +44,20 @@ class ForgotPasswordController extends Controller
     }
 
     /**
-    * Send a reset link to the given user.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
-    */
+     * Send a reset link to the given user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
     public function sendResetLinkEmail(Request $request)
     {
         $result =  $this->validateEmail($request);
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
         $response = $this->broker()->sendResetLink(
-        $request->only('user_email')
+            $request->only('user_email')
         );
         $user = User::where('user_email', request()->input('user_email'))->first();
+        $token = Password::getRepository()->create($user);
         if ($user) {
-            $token = Password::getRepository()->create($user);
             Mail::send(['html' => 'emails.password'], ['token' => $token], function (Message $message) use ($user) {
                 $message->subject('Reset Your Email Password');
                 $message->to($user->user_email);

@@ -61,6 +61,7 @@ class ResetPasswordController extends Controller
     {
         $result = $this->validate($request, $this->rules(), $this->validationErrorMessages());
 
+
         // Here we will attempt to reset the user's password. If it is successful we
         // will update the password on an actual user model and persist it to the
         // database. Otherwise we will parse the error and return the response.
@@ -90,5 +91,18 @@ class ResetPasswordController extends Controller
             'user_email' => 'required|email',
             'password' => 'required|confirmed|min:6',
         ];
+    }
+        /**
+     * Get the response for a failed password reset.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        return redirect()->back()
+                    ->withInput($request->only('user_email'))
+                    ->withErrors(['user_email' => trans($response)]);
     }
 }
