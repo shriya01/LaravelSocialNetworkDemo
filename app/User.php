@@ -6,6 +6,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 use Config;
+use App\Notifications\ResetPassword as ResetPasswordNotification;
+
 /**
  * User Class
  *
@@ -26,6 +28,7 @@ class User extends Authenticatable
      * @var String
      */
     protected $table = 'users';
+    protected $username = 'user_email';
 
   
     /**
@@ -77,5 +80,16 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\VerifyUser');
     }
-
+    /**
+     * [getEmailForPasswordReset description]
+     * @return [type] [description]
+     */
+    public function getEmailForPasswordReset()
+    {
+        return $this->user_email;
+    }
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
 }
