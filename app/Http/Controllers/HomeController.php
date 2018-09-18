@@ -9,6 +9,12 @@ use DB;
 use Session;
 use App\Friendship;
 
+/**
+ * HomeController Class
+ * @category            Controller
+ * @DateOfCreation      19 March 2018 04:00 PM
+ * @ShortDescription    This class handles user side functionality
+ */
 class HomeController extends Controller
 {
 

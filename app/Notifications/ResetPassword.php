@@ -7,6 +7,12 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
+/**
+ * ResetPassword Class
+ * @category            Notification
+ * @DateOfCreation      19 March 2018
+ * @ShortDescription    This class overrides the default reset password mail
+ */
 class ResetPassword extends Notification
 {
     use Queueable;
@@ -14,7 +20,6 @@ class ResetPassword extends Notification
 
     /**
      * Create a new notification instance.
-     *
      * @return void
      */
     public function __construct($token)
@@ -23,8 +28,8 @@ class ResetPassword extends Notification
     }
 
     /**
-     * Get the notification's delivery channels.
-     *
+     * @DateOfCreation     18 September 2018
+     * @ShortDescription   Get the notification's delivery channels.
      * @param  mixed  $notifiable
      * @return array
      */
@@ -34,8 +39,8 @@ class ResetPassword extends Notification
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
+     * @DateOfCreation    18 September 2018
+     * @ShortDescription  Get the mail representation of the notification.
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
@@ -49,8 +54,8 @@ class ResetPassword extends Notification
     }
 
     /**
-     * Get the array representation of the notification.
-     *
+     * @DateOfCreation     18 September 2018
+     * @ShortDescription   Get the array representation of the notification.
      * @param  mixed  $notifiable
      * @return array
      */

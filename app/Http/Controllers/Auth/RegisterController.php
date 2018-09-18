@@ -12,6 +12,13 @@ use Config;
 use App\VerifyUser;
 use Mail;
 use App\Mail\VerifyMail;
+
+/**
+ * RegisterController Class
+ * @category            Controller
+ * @DateOfCreation      19 March 2018 04:00 PM
+ * @ShortDescription    This class handles new user registrations
+ */
 class RegisterController extends Controller
 {
     /*
@@ -28,14 +35,16 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
+     * @DateOfCreation         14 September 2018
+     * @ShortDescription  Where to redirect users after registration.
      *
      * @var string
      */
     protected $redirectTo = '/home';
 
     /**
-     * Create a new controller instance.
+     * @DateOfCreation         14 September 2018
+     * @ShortDescription  Create a new controller instance.
      *
      * @return void
      */
@@ -45,21 +54,21 @@ class RegisterController extends Controller
     }
 
 
-        /**
-    * @DateOfCreation         14 September 2018
-    * @ShortDescription       view user registration from
-    * @return                 View
-    */
-        public function getRegister()
-        {
-            return view('user.register');
-        }
+    /**
+     * @DateOfCreation         14 September 2018
+     * @ShortDescription       view user registration from
+     * @return                 View
+     */
+    public function getRegister()
+    {
+        return view('user.register');
+    }
 
     /**
-    * @DateOfCreation         14 September 2018
-    * @ShortDescription       Register user from user side
-    * @return                 View
-    */
+     * @DateOfCreation         14 September 2018
+     * @ShortDescription       Register user from user side
+     * @return                 View
+     */
     public function postRegister(Request $request)
     {
         $rules = array(
@@ -88,18 +97,18 @@ class RegisterController extends Controller
 
                 Mail::to($user->user_email)->send(new VerifyMail($user));
 
-           if($response = $this->registered($request,$user))
-           {
-            return $response;
-           }
+                if ($response = $this->registered($request, $user)) {
+                    return $response;
+                }
+            }
         }
     }
-}
     /**
-    * [verifyUser description]
-    * @param  [type] $token [description]
-    * @return [type]        [description]
-    */
+     * @DateOfCreation         14 September 2018
+     * @ShortDescription       This function checks whether the user is verified or not
+     * @param  [type] $token [description]
+     * @return [type]        [description]
+     */
     public function verifyUser($token)
     {
         $verifyUser = VerifyUser::where('token', $token)->first();
@@ -117,14 +126,16 @@ class RegisterController extends Controller
         }
         return redirect('/login')->with('status', $status);
     }
-     /**
-    * [registered description]
-    * @param  Request $request [description]
-    * @param  [type]  $user    [description]
-    * @return [type]           [description]
-    */
-     protected function registered(Request $request, $user)
-     {
+    /**
+     * @DateOfCreation         14 September 2018
+     * @ShortDescription       This function is used to tell user that they are registered but not
+     *                         verified yet
+     * @param  Request $request [description]
+     * @param  [type]  $user    [description]
+     * @return [type]           [description]
+     */
+    protected function registered(Request $request, $user)
+    {
         $this->guard()->logout();
         return redirect('/login')->with('status', 'We sent you an activation code. Check your email and click on the link to verify.');
     }

@@ -8,10 +8,17 @@ use Auth;
 use App\Admin;
 use Config;
 
+/**
+ * AdminController Class
+ * @category            Controller
+ * @DateOfCreation      19 March 2018 04:00 PM
+ * @ShortDescription    This class handles admin login
+ */
 class AdminController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * @DateOfCreation         06 sep 2018
+     * @ShortDescription       Create a new controller instance.
      *
      * @return void
      */

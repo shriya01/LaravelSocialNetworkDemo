@@ -7,6 +7,12 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use  Illuminate\Http\Request;
 use Password;
 
+/**
+ * ResetPasswordController Class
+ * @category            Controller
+ * @DateOfCreation      19 March 2018 04:00 PM
+ * @ShortDescription    This class handles reset requests
+ */
 class ResetPasswordController extends Controller
 {
     /*
@@ -23,14 +29,16 @@ class ResetPasswordController extends Controller
     use ResetsPasswords;
 
     /**
-     * Where to redirect users after resetting their password.
+     * @DateOfCreation      18 Sept 2018
+     * @ShortDescription    Where to redirect users after resetting their password.
      *
      * @var string
      */
     protected $redirectTo = '/home';
 
     /**
-     * Create a new controller instance.
+     * @DateOfCreation      18 Sept 2018
+     * @ShortDescription   Create a new controller instance.
      *
      * @return void
      */
@@ -39,7 +47,8 @@ class ResetPasswordController extends Controller
         $this->middleware('guest');
     }
     /**
-     * [showResetForm description]
+     * @DateOfCreation      18 Sept 2018
+     * @ShortDescription    This function show reset form
      * @param  Request $request [description]
      * @param  [type]  $token   [description]
      * @return [type]           [description]
@@ -52,7 +61,8 @@ class ResetPasswordController extends Controller
     }
 
     /**
-     * Reset the given user's password.
+     * @DateOfCreation      18 Sept 2018
+     * @ShortDescription Reset the given user's password.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
@@ -60,27 +70,19 @@ class ResetPasswordController extends Controller
     public function reset(Request $request)
     {
         $result = $this->validate($request, $this->rules(), $this->validationErrorMessages());
-
-
-        // Here we will attempt to reset the user's password. If it is successful we
-        // will update the password on an actual user model and persist it to the
-        // database. Otherwise we will parse the error and return the response.
         $response = $this->broker()->reset(
             $this->credentials($request),
             function ($user, $password) {
                 $this->resetPassword($user, $password);
             }
         );
-
-        // If the password was successfully reset, we will redirect the user back to
-        // the application's home authenticated view. If there is an error we can
-        // redirect them back to where they came from with their error message.
         return $response == Password::PASSWORD_RESET
                     ? $this->sendResetResponse($response)
                     : $this->sendResetFailedResponse($request, $response);
     }
     /**
-     * Get the password reset validation rules.
+     * @DateOfCreation      18 Sept 2018
+     * @ShortDescription Get the password reset validation rules.
      *
      * @return array
      */
@@ -92,8 +94,9 @@ class ResetPasswordController extends Controller
             'password' => 'required|confirmed|min:6',
         ];
     }
-        /**
-     * Get the response for a failed password reset.
+    /**
+     * @DateOfCreation      18 Sept 2018
+     * @ShortDescription    Get the response for a failed password reset.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $response

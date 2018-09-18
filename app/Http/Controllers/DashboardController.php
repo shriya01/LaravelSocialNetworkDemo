@@ -7,6 +7,12 @@ use App\Admin;
 use App\User;
 use Config;
 
+/**
+ * DashboardController Class
+ * @category            Controller
+ * @DateOfCreation      19 March 2018 04:00 PM
+ * @ShortDescription    This class handles admin side functionality
+ */
 class DashboardController extends Controller
 {
     /**

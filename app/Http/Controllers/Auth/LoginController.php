@@ -9,6 +9,13 @@ use Validator;
 use Auth;
 use Config;
 use App\User;
+
+/**
+ * LoginController Class
+ * @category            Controller
+ * @DateOfCreation      19 March 2018 04:00 PM
+ * @ShortDescription    This class handles new authenticating user for application and redirecting them *                      to home
+ */
 class LoginController extends Controller
 {
     /*
@@ -25,14 +32,16 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
-     * Where to redirect users after login.
+     * @DateOfCreation      06 September 2018
+     * @ShortDescription    Where to redirect users after login.
      *
      * @var string
      */
     protected $redirectTo = '/home';
 
     /**
-     * Create a new controller instance.
+     * @DateOfCreation         06 September 2018
+     * @ShortDescription       Create a new controller instance.
      *
      * @return void
      */
@@ -42,20 +51,20 @@ class LoginController extends Controller
     }
 
     /**
-    * @DateOfCreation         06 sep 2018
-    * @ShortDescription       Load the login view for admi
-    * @return                 View
-    */
+     * @DateOfCreation         06 sep 2018
+     * @ShortDescription       Load the login view for admi
+     * @return                 View
+     */
     public function getLogin()
     {
         return view('user.login');
     }
 
     /**
-    * @DateOfCreation         06 sep 2018
-    * @ShortDescription       Load the login view for admin
-    * @return                 View
-    */
+     * @DateOfCreation         06 sep 2018
+     * @ShortDescription       Load the login view for admin
+     * @return                 View
+     */
     public function postLogin(Request $request)
     {
         $rules = array(
@@ -74,18 +83,17 @@ class LoginController extends Controller
                 $role_id =  Auth::user()->user_role_id;
                 $user = Auth::user();
 
-               if($newroute = $this->authenticated($request,$user))
-               {
-                return $newroute;
-                die;
-               } 
+                if ($newroute = $this->authenticated($request, $user)) {
+                    return $newroute;
+                    die;
+                }
                 if ($role_id == Config::get('constants.USER_ROLE')) {
                     return redirect("/welcome")->with(array("message"=>__('messages.login_success')));
                 } else {
                     return redirect()->back()->withInput()->withErrors(__('messages.account_not_exist'));
                 }
             } else {
-              if (User::where('user_email', '=', $inputData['user_email'])->first()) {
+                if (User::where('user_email', '=', $inputData['user_email'])->first()) {
                     $validator->getMessageBag()->add('password', __('messages.wrong_password'));
                 } else {
                     $validator->getMessageBag()->add('email', __('messages.account_not_exist'));
@@ -96,11 +104,12 @@ class LoginController extends Controller
     }
 
     /**
-    * [authenticated description]
-    * @param  Request $request [description]
-    * @param  [type]  $user    [description]
-    * @return [type]           [description]
-    */
+     * @DateOfCreation      06 sep 2018
+     * @ShortDescription    This function check whether account is activated or not
+     * @param  Request $request [description]
+     * @param  [type]  $user    [description]
+     * @return [type]           [description]
+     */
     public function authenticated(Request $request, $user)
     {
         if (!$user->verified) {

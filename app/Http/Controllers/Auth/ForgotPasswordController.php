@@ -10,6 +10,12 @@ use App\User;
 use Mail;
 use Illuminate\Mail\Message;
 
+/**
+ * ForgotPasswordController Class
+ * @category            Controller
+ * @DateOfCreation      19 March 2018 04:00 PM
+ * @ShortDescription    This class handles how to send reset password link when user clicks forgot password
+ */
 class ForgotPasswordController extends Controller
 {
     /*
@@ -26,26 +32,29 @@ class ForgotPasswordController extends Controller
     use SendsPasswordResetEmails;
 
     /**
-    * Create a new controller instance.
-    *
-    * @return void
-    */
+     * @DateOfCreation      18 Sept 2018
+     * @ShortDescription  Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('guest');
     }
+
     /**
-    * [showLinkRequestForm description]
-    * @return [type] [description]
-    */
+     * @DateOfCreation      18 Sept 2018
+     * @ShortDescription    This function displays the form for requesting a link to reset password
+     * @return View
+     */
     public function showLinkRequestForm()
     {
         return view('user.email');
     }
 
     /**
-     * Send a reset link to the given user.
-     *
+     * @DateOfCreation      18 Sept 2018
+     * @ShortDescription    Send a reset link to the given user.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
@@ -67,19 +76,21 @@ class ForgotPasswordController extends Controller
         ? $this->sendResetLinkResponse($response)
         : $this->sendResetLinkFailedResponse($request, $response);
     }
+
     /**
-    * Validate the email for the given request.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return void
-    */
+     * @DateOfCreation        18 Sept 2018
+     * @ShortDescription      Validate the email for the given request.
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
     protected function validateEmail(Request $request)
     {
         $this->validate($request, ['user_email' => 'required|email']);
     }
+
     /**
-     * Get the response for a failed password reset link.
-     *
+     * @DateOfCreation        18 Sept 2018
+     * @ShortDescription      Get the response for a failed password reset link.
      * @param  \Illuminate\Http\Request  $request
      * @param  string  $response
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse

@@ -20,14 +20,14 @@ class Admin extends Model
     use Notifiable;
     
     /**
-     *@ShortDescription Table for the users.
+     * @ShortDescription Table for the users.
      *
      * @var String
      */
     protected $table = 'users';
 
     /**
-     *@ShortDescription  The attributes that are mass assignable.
+     * @ShortDescription  The attributes that are mass assignable.
      *
      * @var array
      */
@@ -43,11 +43,11 @@ class Admin extends Model
         'user_password','remember_token',
     ];
      /**
-     * @DateOfCreation         23-August-2018
-     * @ShortDescription       This function count records and filter according to the condition passed in where array
-     * @param  [array] $whereArray [conditions to be passed into where to filter records]
-     * @return this function return the no of records
-     */
+      * @DateOfCreation         23-August-2018
+      * @ShortDescription       This function count records and filter according to the condition passed in where array
+      * @param  [array] $whereArray [conditions to be passed into where to filter records]
+      * @return this function return the no of records
+      */
     public function countRecords($whereArray)
     {
         return Admin::where($whereArray)->count();
