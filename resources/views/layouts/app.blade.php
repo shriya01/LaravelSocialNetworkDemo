@@ -53,7 +53,7 @@
                                 <a class="nav-link" href="{{url('friendSuggestionList')}}">Add New Friends</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{url('friendlist')}}">Friend List</a>
+                                <a class="nav-link" href="{{url('friendlist')}}">Friend List<span class="badge">@yield('friends_count')</span></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url('pendingrequests')}}">Pending Requests<span class="badge">@yield('count')</span></a>

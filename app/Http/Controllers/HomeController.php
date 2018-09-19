@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Auth;
+use App\Users;
 
 class HomeController extends Controller
 {
@@ -24,8 +25,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
-    }
+        $user_id =Auth::user()->id;
+        $user = Users::find($user_id);
+        $data['count'] = count($user->getFriendRequests()->toArray());
+                        $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
 
-    
+        return view('home', $data);
+    }
 }

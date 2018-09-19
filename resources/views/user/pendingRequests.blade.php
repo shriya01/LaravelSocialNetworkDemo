@@ -2,6 +2,9 @@
 @section('count')
 {{ $count }}
 @endsection
+@section('friends_count')
+{{ $friends_count }}
+@endsection
 @section('content')
 <div class="container">
 	<div class="row justify-content-center">
@@ -12,7 +15,7 @@
 			</div>
 			@endif
 		</div>
-				<div class="col-md-8">
+		<div class="col-md-8">
 			@if (session('success'))
 			<div class="alert alert-success" role="alert">
 				{{ session('success') }}

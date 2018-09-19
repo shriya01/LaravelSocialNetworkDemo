@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Users;
 use Auth;
+use Config;
 
 class UserController extends Controller
 {
@@ -18,25 +19,25 @@ class UserController extends Controller
         $this->middleware('auth');
     }
     /**
-     * [addFriend description]
-     * @param [type] $id [description]
-     */
+    * [addFriend description]
+    * @param [type] $id [description]
+    */
     public function addFriend($id)
     {
         $user_id =Auth::user()->id;
         $user = Users::find($user_id);
         $recipient = Users::find($id);
         if (! $user->hasSentFriendRequestTo($recipient)) {
-        $user->befriend($recipient);
+            $user->befriend($recipient);
             return redirect('friendSuggestionList')->with('success', 'friend request sent successfully');
         }
     }
 
     /**
-     * [confirmFriendRequest description]
-     * @param  [type] $id [description]
-     * @return [type]     [description]
-     */
+    * [confirmFriendRequest description]
+    * @param  [type] $id [description]
+    * @return [type]     [description]
+    */
     public function confirmFriendRequest($id)
     {
         $user_id =Auth::user()->id;
@@ -48,10 +49,10 @@ class UserController extends Controller
     }
 
     /**
-     * [confirmFriendRequest description]
-     * @param  [type] $id [description]
-     * @return [type]     [description]
-     */
+    * [confirmFriendRequest description]
+    * @param  [type] $id [description]
+    * @return [type]     [description]
+    */
     public function rejectFriendRequest($id)
     {
         $user_id =Auth::user()->id;
@@ -62,10 +63,10 @@ class UserController extends Controller
         }
     }
     /**
-     * [cancelFriendRequest description]
-     * @param  [type] $id [description]
-     * @return [type]     [description]
-     */
+    * [cancelFriendRequest description]
+    * @param  [type] $id [description]
+    * @return [type]     [description]
+    */
     public function cancelFriendRequest($id)
     {
         $user_id =Auth::user()->id;
@@ -78,38 +79,38 @@ class UserController extends Controller
     }
 
     /**
-     * [getFriendList description]
-     * @param  [type] $id [description]
-     * @return [type]     [description]
-     */
+    * [getFriendList description]
+    * @param  [type] $id [description]
+    * @return [type]     [description]
+    */
     public function getFriendList()
     {
         $user_id =Auth::user()->id;
         $user = Users::find($user_id);
         $data['friends'] = $user->getFriends()->toArray();
         $data['count'] = count($user->getFriendRequests()->toArray());
+        $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
         return view('user.FriendsList', $data);
     }
     /**
-     * [blockUser description]
-     * @param  [type] $id [description]
-     * @return [type]     [description]
-     */
+    * [blockUser description]
+    * @param  [type] $id [description]
+    * @return [type]     [description]
+    */
     public function blockUser($id)
     {
         $user_id =Auth::user()->id;
         $user = Users::find($user_id);
         $friend = Users::find($id);
-        if($user->blockFriend($friend))
-        {
-            echo "if";
+        if ($user->blockFriend($friend)) {
+            return redirect('friendlist')->with('success', 'friend blocked successfully');
         }
     }
     /**
-     * [unblockUser description]
-     * @param  [type] $id [description]
-     * @return [type]     [description]
-     */
+    * [unblockUser description]
+    * @param  [type] $id [description]
+    * @return [type]     [description]
+    */
     public function unblockUser($id)
     {
         $user_id =Auth::user()->id;
@@ -118,15 +119,16 @@ class UserController extends Controller
         $user->unblockFriend($friend);
     }
     /**
-     * [showPendingRequests description]
-     * @return [type] [description]
-     */
+    * [showPendingRequests description]
+    * @return [type] [description]
+    */
     public function showPendingRequests()
     {
         $user_id =Auth::user()->id;
         $user = Users::find($user_id);
         $data['pendingRequests'] = $user->getPendingFriendships()->toArray();
         $data['count'] = count($user->getFriendRequests()->toArray());
+        $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
         $user_records= [];
         foreach ($data['pendingRequests'] as $key => $value) {
             $sender_id = $data['pendingRequests'][$key]['sender_id'];
@@ -136,30 +138,45 @@ class UserController extends Controller
         return view('user.pendingRequests', $data);
     }
     /**
-     * [friendSuggestionList description]
-     * @return [type] [description]
-     */
+    * [friendSuggestionList description]
+    * @return [type] [description]
+    */
     public function friendSuggestionList()
     {
         $user_id =Auth::user()->id;
         $user = Users::find($user_id);
         $data['users'] = Users::get()->toArray();
         $data['count'] = count($user->getFriendRequests()->toArray());
+        $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
         foreach ($data['users'] as $key => $value) {
             $recipient_id = $data['users'][$key]['id'];
             $recipient = Users::find($recipient_id);
             if ($user->hasSentFriendRequestTo($recipient)) {
-                $data['users'][$key]["status"] = 0;
+                $data['users'][$key]["status"] = Config::get('constants.PENDING');
             } elseif ($user->isBlockedBy($recipient)) {
-                $data['users'][$key]["status"] = 3;
-            }elseif($user->isFriendWith($recipient)){
-                                $data['users'][$key]["status"] = 2;
-
-            } else{
-                $data['users'][$key]["status"] = 1;
+                $data['users'][$key]["status"] = Config::get('constants.BLOCKED');
+            } elseif ($user->isFriendWith($recipient)) {
+                $data['users'][$key]["status"] = Config::get('constants.ACCEPTED');
+            } elseif ($user->hasFriendRequestFrom($recipient)) {
+                $data['users'][$key]["status"] = Config::get('constants.INCOMING_PENDING');
+            } else {
+                $data['users'][$key]["status"] = Config::get('constants.NO_RELATION');
             }
         }
-       
         return view('user.friendSuggestionList', $data);
+    }
+    /**
+     * [removeFriend description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function removeFriend($id)
+    {
+        $user_id =Auth::user()->id;
+        $user = Users::find($user_id);
+        $friend = Users::find($id);
+        if ($user->unfriend($friend)) {
+            return redirect('friendlist')->with('success', 'friend removed successfully');
+        }
     }
 }
