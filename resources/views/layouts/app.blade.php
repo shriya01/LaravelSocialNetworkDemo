@@ -11,14 +11,14 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('public/js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -56,7 +56,7 @@
                                 <a class="nav-link" href="{{url('friendlist')}}">Friend List</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{url('pendingrequests')}}">Pending Requests</a>
+                                <a class="nav-link" href="{{url('pendingrequests')}}">Pending Requests<span class="badge">@yield('count')</span></a>
                             </li>
                         </ul>
                         <li class="nav-item dropdown">

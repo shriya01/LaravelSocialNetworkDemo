@@ -1,4 +1,7 @@
 @extends('layouts.app')
+@section('count')
+{{ $count }}
+@endsection
 @section('content')
 <div class="container">
 	<div class="row justify-content-center">

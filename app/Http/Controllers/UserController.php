@@ -87,6 +87,7 @@ class UserController extends Controller
         $user_id =Auth::user()->id;
         $user = Users::find($user_id);
         $data['friends'] = $user->getFriends()->toArray();
+        $data['count'] = count($user->getFriendRequests()->toArray());
         return view('user.FriendsList', $data);
     }
     /**
@@ -125,6 +126,7 @@ class UserController extends Controller
         $user_id =Auth::user()->id;
         $user = Users::find($user_id);
         $data['pendingRequests'] = $user->getPendingFriendships()->toArray();
+        $data['count'] = count($user->getFriendRequests()->toArray());
         $user_records= [];
         foreach ($data['pendingRequests'] as $key => $value) {
             $sender_id = $data['pendingRequests'][$key]['sender_id'];
@@ -142,6 +144,7 @@ class UserController extends Controller
         $user_id =Auth::user()->id;
         $user = Users::find($user_id);
         $data['users'] = Users::get()->toArray();
+        $data['count'] = count($user->getFriendRequests()->toArray());
         foreach ($data['users'] as $key => $value) {
             $recipient_id = $data['users'][$key]['id'];
             $recipient = Users::find($recipient_id);
