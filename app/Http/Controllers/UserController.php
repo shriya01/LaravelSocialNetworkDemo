@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Users;
 use Auth;
 use Config;
+use App\MyModel;
+use Validator;
 
 class UserController extends Controller
 {
@@ -177,6 +179,70 @@ class UserController extends Controller
         $friend = Users::find($id);
         if ($user->unfriend($friend)) {
             return redirect('friendlist')->with('success', 'friend removed successfully');
+        }
+    }
+    /**
+     * [viewUserPosts description]
+     * @return [type] [description]
+     */
+    public function viewUserPosts()
+    {
+        $user_id =Auth::user()->id;
+        $user = Users::find($user_id);
+        $friends = $user->getFriends()->toArray();
+        $array = [] ;
+        foreach ($friends as $key=>$value) {
+            $id =  $value['id'];
+            array_push($array, MyModel::select('posts', ['post_title','post_description','post_image'], ['user_id'=>$id]));
+        }
+        $data['posts'] = json_decode(json_encode($array), true);
+        $data['count'] = count($user->getFriendRequests()->toArray());
+        $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
+        return view('post.viewMyPosts', $data);
+    }
+    /**
+     * [addNewPost description]
+     */
+    public function addNewPost()
+    {
+        $user_id =Auth::user()->id;
+        $user = Users::find($user_id);
+        $data['count'] = count($user->getFriendRequests()->toArray());
+        $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
+        return view('post.addNewPost', $data);
+    }
+    /**
+     * [submitPost description]
+     * @return [type] [description]
+     */
+    public function submitPost(Request $request)
+    {
+        $rules = array(
+            'post_title'    => 'required',
+            'post_description'     => 'required',
+            'post_image'     => 'required',
+        );
+        // set validator
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+
+            // redirect our user back to the form with the errors from the validator
+            return redirect()->back()->withInput()->withErrors($validator->errors());
+        } else {
+            //final array of the data from the request
+            $postData = array(
+                'post_title' => $request->input("post_title"),
+                'post_description' => $request->input("post_description"),
+                'post_image' => '',
+                'user_id' => Auth::user()->id
+            );
+            //insert user data in users table
+            $user = MyModel::insert('posts', $postData);
+            if ($user) {
+                return redirect('/viewposts')->with('message', 'Post successfully added');
+            } else {
+                return redirect()->back()->withInput()->withErrors(__('messages.try_again'));
+            }
         }
     }
 }

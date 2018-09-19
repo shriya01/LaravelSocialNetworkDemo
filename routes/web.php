@@ -32,3 +32,6 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
+Route::get('viewposts', 'UserController@viewUserPosts');
+Route::get('addPost', 'UserController@addNewPost');
+Route::post('addPost', 'UserController@submitPost');
