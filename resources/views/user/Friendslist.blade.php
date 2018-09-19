@@ -23,10 +23,10 @@
 				@if(session('code') == 1 && session('id')==$row->id )
 				<a href="{{url('add',$row->id)}}"><button class="btn btn-default">Request Sent</button></a>
 				@else
-				
+
 				<a href="{{url('add',$row->id)}}"><button class="btn btn-default">View Profile</button></a>
 				@endif
-			
+
 			</div>
 			<hr />
 			@endforeach

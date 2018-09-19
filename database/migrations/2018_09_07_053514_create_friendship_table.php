@@ -17,7 +17,7 @@ class CreateFriendshipTable extends Migration
             $table->increments('id');
             $table->integer('sender_id')->unsigned();
             $table->integer('receiver_id');
-            $table->integer('status')->unsigned()->default(1);
+            $table->boolean('status')->default(false);
             $table->smallInteger('is_deleted')->default(2);
             $table->timestamps();
         });
