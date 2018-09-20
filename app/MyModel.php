@@ -65,8 +65,16 @@ class MyModel
     {
     return    DB::table('posts')
             ->join('users', 'users.id', '=', 'posts.user_id')
-            ->select('users.name', 'post_title', 'post_description','post_image')
-            ->whereIn('user_id', $array)
+            ->select('users.name', 'post_title', 'post_description','post_image','posts.id')
+            ->whereIn('posts.user_id', $array)
             ->get();
     }
+
+    public static function getColumnCount($table_name = '',$where_array = [],$column_name)
+    {
+        $count = DB::table($table_name)->where($where_array)->count($column_name);
+        return $count;
+    }
+
+
 }

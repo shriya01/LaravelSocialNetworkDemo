@@ -43,7 +43,7 @@
 									<img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
 								</div>
 								<div class="ml-2">
-									<div class="h5 m-0">{{ ucfirst($posts[$key]['name']) }}</div>
+									<div class="h5 m-0">{{ ucwords($posts[$key]['name']) }}</div>
 								</div>
 							</div>
 							<div>
@@ -74,8 +74,15 @@
 						@endif
 					</div>
 					<div class="card-footer">
-						<a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
-						<a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+						<a href="#" class="card-link"><i class="fa fa-gittip"></i> Like
+							@if($posts[$key]['likes'] > 0)
+							<span class="badge">{{$posts[$key]['likes']}}</span>
+							@endif
+						</a>
+						<a href="#" class="card-link"><i class="fa fa-comment"></i> Comment 
+										@if($posts[$key]['comments'] > 0)
+							<span class="badge">{{$posts[$key]['comments']}}</span>
+							@endif</a>
 					</div>
 				</div>
 				@endforeach

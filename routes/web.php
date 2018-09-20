@@ -35,3 +35,4 @@ Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
 Route::get('viewposts', 'PostController@viewUserPosts');
 Route::get('addPost', 'PostController@addNewPost');
 Route::post('addPost', 'PostController@submitPost');
+Route::get('likes/{id}','PostController@getNumberOfLikes')->name('likes');

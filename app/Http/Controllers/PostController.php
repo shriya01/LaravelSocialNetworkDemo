@@ -7,6 +7,7 @@ use Auth;
 use App\Users;
 use Validator;
 use App\MyModel;
+use DB;
 
 class PostController extends Controller
 {
@@ -19,13 +20,20 @@ class PostController extends Controller
         $user_id =Auth::user()->id;
         $user = Users::find($user_id);
         $friends = $user->getFriends()->toArray();
-        $array = [] ;
+        $array = [];
         foreach ($friends as $key=>$value) {
             $id =  $value['id'];
             array_push($array, $id);
         }
         $posts = MyModel::getPostData($array);
         $data['posts'] = json_decode(json_encode($posts), true);
+        foreach ($data['posts'] as $key => $value) {
+            $post_id = $data['posts'][$key]['id'];
+            $likes =  MyModel::getColumnCount('post_likes', ['post_id'=>$post_id], 'like');
+            $comments =  MyModel::getColumnCount('post_comments', ['post_id'=>$post_id], 'id');
+            $data['posts'][$key]["likes"] = $likes;
+            $data['posts'][$key]["comments"] = $comments;
+        }
         $data['count'] = count($user->getFriendRequests()->toArray());
         $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
         return view('post.viewMyPosts', $data);
@@ -48,9 +56,9 @@ class PostController extends Controller
     public function submitPost(Request $request)
     {
         $rules = array(
-            'post_title'    => 'required',
-            'post_description'     => 'required',
-            'post_image'     => 'required',
+        'post_title'    => 'required',
+        'post_description'     => 'required',
+        'post_image'     => 'required',
         );
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -61,10 +69,10 @@ class PostController extends Controller
             $destinationPath = 'public/files';
             $file->move($destinationPath, $file->getClientOriginalName());
             $postData = array(
-                'post_title' => $request->input("post_title"),
-                'post_description' => $request->input("post_description"),
-                'post_image' => $fileName,
-                'user_id' => Auth::user()->id
+            'post_title' => $request->input("post_title"),
+            'post_description' => $request->input("post_description"),
+            'post_image' => $fileName,
+            'user_id' => Auth::user()->id
             );
             $user = MyModel::insert('posts', $postData);
             if ($user) {
