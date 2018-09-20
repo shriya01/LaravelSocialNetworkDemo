@@ -12,6 +12,12 @@ use App\Mail\VerifyMail;
 use Mail;
 use Illuminate\Http\Request;
 
+/**
+ * RegisterController Class
+ * @category            Controller
+ * @DateOfCreation      20 September 2018
+ * @ShortDescription    This class handles new user registrations
+ */
 class RegisterController extends Controller
 {
     /*
@@ -28,14 +34,16 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
+     * @DateOfCreation      20 September 2018
+     * @ShortDescription    Where to redirect users after registration.
      *
      * @var string
      */
     protected $redirectTo = '/home';
 
     /**
-     * Create a new controller instance.
+     * @DateOfCreation      20 September 2018
+     * @ShortDescription    Create a new controller instance.
      *
      * @return void
      */
@@ -45,7 +53,8 @@ class RegisterController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * @DateOfCreation      20 September 2018
+     * @ShortDescription    Get a validator for an incoming registration request.
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
@@ -56,11 +65,12 @@ class RegisterController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
-        ]);
+            ]);
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * @DateOfCreation      20 September 2018
+     * @ShortDescription    Create a new user instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\User
@@ -71,19 +81,21 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-        ]);
- 
+            ]);
+
         $verifyUser = VerifyUser::create([
             'user_id' => $user->id,
             'token' => str_random(40)
-        ]);
- 
+            ]);
+
         Mail::to($user->email)->send(new VerifyMail($user));
- 
+
         return $user;
     }
+
     /**
-     * [verifyUser description]
+     * @DateOfCreation       20 September 2018
+     * @ShortDescription     This function checks whether the user is verified or not
      * @param  [type] $token [description]
      * @return [type]        [description]
      */
@@ -102,11 +114,13 @@ class RegisterController extends Controller
         } else {
             return redirect('/login')->with('warning', "Sorry your email cannot be identified.");
         }
- 
+
         return redirect('/login')->with('status', $status);
     }
     /**
-     * [registered description]
+     * @DateOfCreation         14 September 2018
+     * @ShortDescription       This function is used to tell user that they are registered but not
+     *                         verified yet
      * @param  Request $request [description]
      * @param  [type]  $user    [description]
      * @return [type]           [description]

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 class MyModel
 {
     /**
-     * @DateOfCreation       17 August 2018
+     * @DateOfCreation       17 September 2018
      * @DateOfDeprecated   
      * @ShortDescription     This function selects the specified data from table
      * @LongDescription      
@@ -30,7 +30,7 @@ class MyModel
         return $result;
     }
     /**
-     * @DateOfCreation       17 August 2018
+     * @DateOfCreation       17 September 2018
      * @DateOfDeprecated   
      * @ShortDescription     This function insert the specified data into table
      * @LongDescription    
@@ -43,7 +43,7 @@ class MyModel
        return DB::table($table_name)->insertGetId($insert_array);
     }
     /**
-     * @DateOfCreation       17 August 2018
+     * @DateOfCreation       17 September 2018
      * @DateOfDeprecated   
      * @ShortDescription     This function update the specified data into table
      * @LongDescription    
@@ -55,5 +55,18 @@ class MyModel
     public static function update($table_name = '', $update_array = [], $where_array = [])
     {
         DB::table($table_name)->where($where_array)->update($update_array);
+    }
+    /**
+     * [getPostData description]
+     * @param  array  $array [description]
+     * @return [type]        [description]
+     */
+    public static function getPostData($array = [])
+    {
+    return    DB::table('posts')
+            ->join('users', 'users.id', '=', 'posts.user_id')
+            ->select('users.name', 'post_title', 'post_description','post_image')
+            ->whereIn('user_id', $array)
+            ->get();
     }
 }
