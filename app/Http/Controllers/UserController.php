@@ -8,6 +8,7 @@ use Auth;
 use Config;
 use App\MyModel;
 use Validator;
+use DB;
 
 class UserController extends Controller
 {
@@ -193,9 +194,14 @@ class UserController extends Controller
         $array = [] ;
         foreach ($friends as $key=>$value) {
             $id =  $value['id'];
-            array_push($array, MyModel::select('posts', ['post_title','post_description','post_image'], ['user_id'=>$id]));
+            array_push($array, $id);
         }
-        $data['posts'] = json_decode(json_encode($array), true);
+        $posts = DB::table('posts')
+            ->join('users', 'users.id', '=', 'posts.user_id')
+            ->select('users.name', 'post_title', 'post_description','post_image')
+            ->whereIn('user_id', $array)
+            ->get();
+        $data['posts'] = json_decode(json_encode($posts), true);
         $data['count'] = count($user->getFriendRequests()->toArray());
         $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
         return view('post.viewMyPosts', $data);
@@ -222,6 +228,7 @@ class UserController extends Controller
             'post_description'     => 'required',
             'post_image'     => 'required',
         );
+
         // set validator
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
@@ -229,11 +236,16 @@ class UserController extends Controller
             // redirect our user back to the form with the errors from the validator
             return redirect()->back()->withInput()->withErrors($validator->errors());
         } else {
+            $file = $request->file('post_image');
+            $fileName = $file->getClientOriginalName();
+            //Move Uploaded File
+            $destinationPath = 'public/files';
+            $file->move($destinationPath, $file->getClientOriginalName());
             //final array of the data from the request
             $postData = array(
                 'post_title' => $request->input("post_title"),
                 'post_description' => $request->input("post_description"),
-                'post_image' => '',
+                'post_image' => $fileName,
                 'user_id' => Auth::user()->id
             );
             //insert user data in users table

@@ -9,22 +9,22 @@
 <div class="container">
 
 	<div class="row justify-content-center">
-	
+
 		<div class="col-md-8">
-					 @if ($errors->any())
-						 <ul>
-            @foreach ($errors->all() as $error)
-            <li class="text-danger">
-                {{ $error }}
-            </li>
-            @endforeach
-</ul>
-@endif
+			@if ($errors->any())
+			<ul>
+				@foreach ($errors->all() as $error)
+				<li class="text-danger">
+					{{ $error }}
+				</li>
+				@endforeach
+			</ul>
+			@endif
 			<div class="card">
 
 				<div class="card-header">{{ __('Add New Post') }}</div>
 				<div class="card-body">
-				<form method=POST  enctype="multipart/form-data" action="" aria-label="{{ __('Add New Post') }}">
+					<form method=POST  enctype="multipart/form-data" action="" aria-label="{{ __('Add New Post') }}">
 						@csrf
 						<div class="form-group row">
 							<label for="post_title" class="col-md-4 col-form-label text-md-right">{{ __('Post Title') }}</label>
