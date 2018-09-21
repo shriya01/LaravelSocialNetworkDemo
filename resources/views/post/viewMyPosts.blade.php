@@ -27,7 +27,6 @@
 <div class="container container-fluid gedf-wrapper" >
 	<div class="row gedf-main">
 		<a href="{{'addPost'}}" class="btn btn-primary"> ADD NEW POST</a>
-
 	</div>
 	<hr />
 	<div class="row">
@@ -81,7 +80,7 @@
 						</a>
 						<a href="#" class="card-link"><i class="fa fa-comment"></i> Comment 
 										@if($posts[$key]['comments'] > 0)
-							<span class="badge">{{$posts[$key]['comments']}}</span>
+						<span class="badge">{{$posts[$key]['comments']}}</span>
 							@endif</a>
 					</div>
 				</div>
@@ -89,4 +88,10 @@
 			</div>
 		</div>
 	</div>
-	@endsection
+</div>
+@endsection
+@section('scripts')
+<script type="text/javascript">
+	
+</script>
+@endsection
