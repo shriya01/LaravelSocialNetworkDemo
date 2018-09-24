@@ -89,6 +89,21 @@
 								<input type="submit" name="addComment" value="Comment" class="ajaxSubmit btn btn-primary" data-id="{{$posts[$key]['id']}}">
 							</form>
 						</div>
+						<br/>
+						@if($posts[$key]['comments_data'])
+						@foreach($posts[$key]['comments_data'] as $commentkey => $commentvalue)
+						<ul class="list-group">
+
+						@if($commentvalue->user_id == Auth::user()->id)
+						<input type="text" name="comment_text" value="{{ $commentvalue->comment  }}">
+						<a href="#"  style="display: contents;" class="" data-id="{{$posts[$key]['id']}}">Edit</a>
+						<a href="#" style="display: contents;" class="" data-id="{{$posts[$key]['id']}}">Delete</a>
+						@else
+							<li class="list-group-item">{{ $commentvalue->comment  }}</li>
+						@endif
+							@endforeach
+						</ul> 
+						@endif
 					</div>
 				</div>
 				@endforeach
@@ -152,6 +167,8 @@
 				success: function(result){
 					var json = JSON.parse(result);
 					$("#commentbadge"+postId).text(json.comments);
+					$("#comment-form"+postId)[0].reset();
+					location.reload();
 				},
 			});
 		});
