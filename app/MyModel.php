@@ -59,6 +59,16 @@ class MyModel
         DB::table($table_name)->where($where_array)->update($update_array);
     }
     /**
+     * [delete description]
+     * @param  string $table_name  [description]
+     * @param  array  $where_array [description]
+     * @return [type]              [description]
+     */
+    public static function delete($table_name = '',$where_array = [])
+    {
+        DB::table($table_name)->where($where_array)->delete();
+    }
+    /**
      * [getPostData description]
      * @param  array  $array [description]
      * @return [type]        [description]
@@ -67,7 +77,7 @@ class MyModel
     {
         return DB::table('posts')
             ->join('users', 'users.id', '=', 'posts.user_id')
-            ->select('users.name', 'post_title', 'post_description', 'post_image', 'posts.id')
+            ->select('users.name', 'post_title', 'post_description', 'post_image', 'posts.id','posts.user_id')
             ->whereIn('posts.user_id', $array)
             ->get();
     }

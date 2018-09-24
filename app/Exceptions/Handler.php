@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use ErrorException;
 
 class Handler extends ExceptionHandler
 {
@@ -47,9 +46,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof ErrorException) {
-            return redirect('login');
-        }
         return parent::render($request, $exception);
     }
 }

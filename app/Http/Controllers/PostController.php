@@ -82,4 +82,41 @@ class PostController extends Controller
             }
         }
     }
+    /**
+     * [changeLikeStatus description]
+     * @return [type] [description]
+     */
+    public function changeLikeStatus(Request $request)
+    {
+        header("Content-type: application/json");
+        $text = $request->id;
+        $post_id = $request->attrid;
+        $user_id = Auth::user()->id;
+        if ($text == "Like") {
+            if (! MyModel::select('post_likes', ['post_id'], ['post_id'=>$post_id,'user_id'=>$user_id])) {
+                $insertResult = MyModel::insert('post_likes', ['post_id'=>$post_id,'user_id'=>$user_id]);
+            }
+            $likes =  MyModel::getColumnCount('post_likes', ['post_id'=>$post_id], 'like');
+            echo json_encode(array('text'=>'Unlike','likes'=>$likes));
+        } else {
+            $deleteResult = MyModel::delete('post_likes', ['post_id'=>$post_id,'user_id'=>$user_id]);
+            $likes =  MyModel::getColumnCount('post_likes', ['post_id'=>$post_id], 'like');
+            echo json_encode(array('text'=>'Like','likes'=>$likes));
+        }
+    }
+    /**
+     * [addComment description]
+     * @param Request $request [description]
+     */
+    public function addComment(Request $request)
+    {
+        header("Content-type: application/json");
+        $comment = $request->comment;
+        $post_id = $request->postId;
+        $user_id = Auth::user()->id;
+        if (MyModel::insert('post_comments', ['post_id'=>$post_id,'user_id'=>$user_id,'comment'=>$comment])) {
+            $comments =  MyModel::getColumnCount('post_comments', ['post_id'=>$post_id], 'id');
+            echo json_encode(array('comments'=>$comments));
+        }
+    }
 }
