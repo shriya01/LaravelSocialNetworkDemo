@@ -5,6 +5,19 @@
 @section('friends_count')
 {{ $friends_count }}
 @endsection
+@section('styles')
+<style type="text/css">
+	.social-button
+	{
+		float:inline-end;
+	}
+	.social-links ul li
+	{
+		list-style-type: none;
+	}
+	a[class*="social-button"]:after {content: ' Share ';}
+</style>
+@endsection
 @section('content')
 <div class="container">
 	<div class="row justify-content-center">
@@ -26,7 +39,7 @@
 </div>
 <div class="container container-fluid gedf-wrapper" >
 	<div class="row gedf-main">
-		<a href="{{'addPost'}}" class="btn btn-primary"> ADD NEW POST</a>
+		<a href="{{'addPost'}}" class="btn btn-primary">ADD NEW POST</a>
 	</div>
 	<hr />
 	<div class="row">
@@ -76,7 +89,8 @@
 						<a href="#" class="card-link card-link-like" id="card-link-like{{$posts[$key]['id']}}" data-id="{{$posts[$key]['id']}}"><i class="fa fa-gittip"></i>Like</a>
 						@if($posts[$key]['likes'] > 0)
 						<span id="likebadge{{$posts[$key]['id']}}" class="badge">{{$posts[$key]['likes']}}</span>
-						@endif
+						@endif		
+						</a>
 						<a href="#" class="card-link card-link-comment" data-id="{{$posts[$key]['id']}}"><i class="fa fa-comment" ></i> Comment 
 							@if($posts[$key]['comments'] > 0)
 							<span id="commentbadge{{$posts[$key]['id']}}">{{$posts[$key]['comments']}}</span>
@@ -93,19 +107,16 @@
 						@if($posts[$key]['comments_data'])
 						@foreach($posts[$key]['comments_data'] as $commentkey => $commentvalue)
 						<ul class="list-group">
-
-						@if($commentvalue->user_id == Auth::user()->id)
-						<input type="text" name="comment_text" value="{{ $commentvalue->comment  }}">
-						<a href="#"  style="display: contents;" class="" data-id="{{$posts[$key]['id']}}">Edit</a>
-						<a href="#" style="display: contents;" class="" data-id="{{$posts[$key]['id']}}">Delete</a>
-						@else
-							<li class="list-group-item">{{ $commentvalue->comment  }}</li>
-						@endif
+						<input type="text" name="comment_text" readonly="" value="{{ $commentvalue->comment  }}">
 							@endforeach
 						</ul> 
+						<div class="social-links">
+				{!! $result !!}
+				</div>
 						@endif
 					</div>
 				</div>
+				
 				@endforeach
 			</div>
 		</div>
@@ -148,7 +159,6 @@
 			postId = $(this).attr("data-id");
 			$('#card-link-comment'+postId).show();
 		});
-
 		jQuery('.ajaxSubmit').click(function(e){
 			e.preventDefault();
 			postId = $(this).attr("data-id");

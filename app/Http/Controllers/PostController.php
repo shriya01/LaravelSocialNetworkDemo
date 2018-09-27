@@ -1,16 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use Auth;
 use App\Users;
 use Validator;
 use App\MyModel;
 use DB;
+use Share;
 
 class PostController extends Controller
 {
+
     /**
      * [viewUserPosts description]
      * @return [type] [description]
@@ -30,17 +31,23 @@ class PostController extends Controller
         $array = [];
         foreach ($data['posts'] as $key => $value) {
             $post_id = $data['posts'][$key]['id'];
+
             $likes =  MyModel::getColumnCount('post_likes', ['post_id'=>$post_id], 'like');
             $comments =  MyModel::getColumnCount('post_comments', ['post_id'=>$post_id], 'id');
             $comments_data = MyModel::select('post_comments',['post_id','user_id','comment'],['post_id'=>$post_id]);
             $data['posts'][$key]["likes"] = $likes;
             $data['posts'][$key]["comments"] = $comments;
             $data['posts'][$key]["comments_data"] = $comments_data;
+            $data['result'] = Share::page('tutorialspoint.com')->facebook();
+
         }
 
         $data['count'] = count($user->getFriendRequests()->toArray());
         $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
-        return view('post.viewMyPosts', $data);
+            # code...
+
+        
+      return view('post.viewMyPosts', $data);
     }
     /**
      * [addNewPost description]
@@ -122,5 +129,14 @@ class PostController extends Controller
             $comments =  MyModel::getColumnCount('post_comments', ['post_id'=>$post_id], 'id');
             echo json_encode(array('comments'=>$comments));
         }
+    }
+    /**
+     * [showSinglePost description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function showSinglePost($name)
+    {
+echo $name;
     }
 }
