@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Auth;
 use App\Users;
@@ -34,20 +35,22 @@ class PostController extends Controller
 
             $likes =  MyModel::getColumnCount('post_likes', ['post_id'=>$post_id], 'like');
             $comments =  MyModel::getColumnCount('post_comments', ['post_id'=>$post_id], 'id');
-            $comments_data = MyModel::select('post_comments',['post_id','user_id','comment'],['post_id'=>$post_id]);
+            $comments_data = MyModel::select('post_comments', ['post_id','user_id','comment'], ['post_id'=>$post_id]);
             $data['posts'][$key]["likes"] = $likes;
             $data['posts'][$key]["comments"] = $comments;
             $data['posts'][$key]["comments_data"] = $comments_data;
-            $data['result'] = Share::page('tutorialspoint.com')->facebook();
-
+            $data['result'] = Share::page('http://jorenvanhocht.be', 'Share title')
+    ->facebook()
+    ->twitter()
+    ->googlePlus()
+    ->linkedin('Extra linkedin summary can be passed here');
         }
-
         $data['count'] = count($user->getFriendRequests()->toArray());
         $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
-            # code...
+        # code...
 
         
-      return view('post.viewMyPosts', $data);
+        return view('post.viewMyPosts', $data);
     }
     /**
      * [addNewPost description]
@@ -137,6 +140,6 @@ class PostController extends Controller
      */
     public function showSinglePost($name)
     {
-echo $name;
+        echo $name;
     }
 }
