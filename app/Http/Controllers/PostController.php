@@ -32,7 +32,6 @@ class PostController extends Controller
         $array = [];
         foreach ($data['posts'] as $key => $value) {
             $post_id = $data['posts'][$key]['id'];
-
             $likes =  MyModel::getColumnCount('post_likes', ['post_id'=>$post_id], 'like');
             $comments =  MyModel::getColumnCount('post_comments', ['post_id'=>$post_id], 'id');
             $comments_data = MyModel::select('post_comments', ['post_id','user_id','comment'], ['post_id'=>$post_id]);
