@@ -64,7 +64,7 @@ class MyModel
      * @param  array  $where_array [description]
      * @return [type]              [description]
      */
-    public static function delete($table_name = '',$where_array = [])
+    public static function delete($table_name = '', $where_array = [])
     {
         DB::table($table_name)->where($where_array)->delete();
     }
@@ -77,7 +77,7 @@ class MyModel
     {
         return DB::table('posts')
             ->join('users', 'users.id', '=', 'posts.user_id')
-            ->select('users.name', 'post_title', 'post_description', 'post_image', 'posts.id','posts.user_id')
+            ->select('users.name', 'post_title', 'post_description', 'post_image', 'posts.id', 'posts.user_id')
             ->whereIn('posts.user_id', $array)
             ->get();
     }
@@ -92,5 +92,18 @@ class MyModel
     {
         $count = DB::table($table_name)->where($where_array)->count($column_name);
         return $count;
+    }
+    /**
+     * [getCommentsData description]
+     * @param  [type] $post_id [description]
+     * @return [type]          [description]
+     */
+    public static function getCommentsData($post_id)
+    {
+        return  $users = DB::table('post_comments')
+            ->join('users', 'users.id', '=', 'post_comments.user_id')
+            ->select('name', 'post_id', 'post_comments.user_id', 'comment')
+            ->where('post_id', $post_id)
+            ->get();
     }
 }

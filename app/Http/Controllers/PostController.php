@@ -35,21 +35,21 @@ class PostController extends Controller
             $likes =  MyModel::getColumnCount('post_likes', ['post_id'=>$post_id], 'like');
             $comments =  MyModel::getColumnCount('post_comments', ['post_id'=>$post_id], 'id');
             $comments_data = MyModel::select('post_comments', ['post_id','user_id','comment'], ['post_id'=>$post_id]);
+            $comments_data = MyModel::getCommentsData($post_id);
             $data['posts'][$key]["likes"] = $likes;
             $data['posts'][$key]["comments"] = $comments;
             $data['posts'][$key]["comments_data"] = $comments_data;
-            $data['result'] = Share::page('http://jorenvanhocht.be', 'Share title')
-    ->facebook()
-    ->twitter()
-    ->googlePlus()
-    ->linkedin('Extra linkedin summary can be passed here');
+            $data['result'] = Share::page('tutorialspoint.com', 'Share title')
+            ->facebook()
+            ->twitter()
+            ->linkedin('Extra linkedin summary can be passed here');
         }
         $data['count'] = count($user->getFriendRequests()->toArray());
         $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
         # code...
 
         
-        return view('post.viewMyPosts', $data);
+        return view('post.viewPosts', $data);
     }
     /**
      * [addNewPost description]
@@ -69,10 +69,10 @@ class PostController extends Controller
     public function submitPost(Request $request)
     {
         $rules = array(
-        'post_title'    => 'required',
-        'post_description'     => 'required',
-        'post_image'     => 'required',
-        );
+            'post_title'    => 'required',
+            'post_description'     => 'required',
+            'post_image'     => 'required',
+            );
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return redirect()->back()->withInput()->withErrors($validator->errors());
@@ -82,11 +82,11 @@ class PostController extends Controller
             $destinationPath = 'public/files';
             $file->move($destinationPath, $file->getClientOriginalName());
             $postData = array(
-            'post_title' => $request->input("post_title"),
-            'post_description' => $request->input("post_description"),
-            'post_image' => $fileName,
-            'user_id' => Auth::user()->id
-            );
+                'post_title' => $request->input("post_title"),
+                'post_description' => $request->input("post_description"),
+                'post_image' => $fileName,
+                'user_id' => Auth::user()->id
+                );
             $user = MyModel::insert('posts', $postData);
             if ($user) {
                 return redirect('/viewposts')->with('message', 'Post successfully added');
