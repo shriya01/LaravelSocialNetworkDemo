@@ -4,9 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Post extends Model
 {
-    protected $table = 'post_comments';
     /**
      * [user description]
      * @return [type] [description]
@@ -16,11 +15,11 @@ class Comment extends Model
         return $this->belongsTo(User::class);
     }
     /**
-     * [replies description]
+     * [comments description]
      * @return [type] [description]
      */
-    public function replies()
+    public function comments()
     {
-        return $this->hasMany(Comment::class, 'parent_id');
+        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
     }
 }

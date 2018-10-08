@@ -10,9 +10,14 @@ use App\MyModel;
 use DB;
 use Share;
 use App\Comment;
+use App\Post;
+
 class PostController extends Controller
 {
-
+    public function __construct()
+    {
+        return $this->middleware('auth');
+    }
     /**
      * [viewUserPosts description]
      * @return [type] [description]
@@ -27,15 +32,14 @@ class PostController extends Controller
             $id =  $value['id'];
             array_push($array, $id);
         }
-        $posts = MyModel::getPostData($array);
-        $data['posts'] = json_decode(json_encode($posts), true);
-        $array = [];
+        $data['posts'] = Post::whereIn('user_id',$array)->get();
+
         foreach ($data['posts'] as $key => $value) {
             $post_id = $data['posts'][$key]['id'];
+       
             $likes =  MyModel::getColumnCount('post_likes', ['post_id'=>$post_id], 'like');
-            $comments =  MyModel::getColumnCount('post_comments', ['post_id'=>$post_id], 'id');
-            $comments_data = MyModel::select('post_comments', ['post_id','user_id','comment'], ['post_id'=>$post_id]);
-            $comments_data = Comment::find($post_id);
+            $comments =  MyModel::getColumnCount('post_comments', ['commentable_id'=>$post_id], 'id');
+            $comments_data = Post::find($post_id);
             $data['posts'][$key]["likes"] = $likes;
             $data['posts'][$key]["comments"] = $comments;
             $data['posts'][$key]["comments_data"] = $comments_data;
@@ -46,6 +50,8 @@ class PostController extends Controller
         }
         $data['count'] = count($user->getFriendRequests()->toArray());
         $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
+        # code...
+        
         return view('post.viewPosts', $data);
     }
     /**
@@ -78,18 +84,13 @@ class PostController extends Controller
             $fileName = $file->getClientOriginalName();
             $destinationPath = 'public/files';
             $file->move($destinationPath, $file->getClientOriginalName());
-            $postData = array(
-                'post_title' => $request->input("post_title"),
-                'post_description' => $request->input("post_description"),
-                'post_image' => $fileName,
-                'user_id' => Auth::user()->id
-                );
-            $user = MyModel::insert('posts', $postData);
-            if ($user) {
-                return redirect('/viewposts')->with('message', 'Post successfully added');
-            } else {
-                return redirect()->back()->withInput()->withErrors(__('messages.try_again'));
-            }
+            $post =  new Post;
+            $post->post_title = $request->input('post_title');
+            $post->post_description = $request->input('post_description');
+            $post->post_image = $fileName;
+            $post->user_id = Auth::user()->id;
+            $post->save();
+            return redirect('viewposts');
         }
     }
     /**
@@ -124,18 +125,10 @@ class PostController extends Controller
         $comment = $request->comment;
         $post_id = $request->postId;
         $user_id = Auth::user()->id;
-        if (MyModel::insert('post_comments', ['post_id'=>$post_id,'user_id'=>$user_id,'comment'=>$comment])) {
-            $comments =  MyModel::getColumnCount('post_comments', ['post_id'=>$post_id], 'id');
+        if (MyModel::insert('post_comments', ['commentable_id'=>$post_id,'user_id'=>$user_id,'comment'=>$comment])) {
+            $comments =  MyModel::getColumnCount('post_comments', ['commentable_id'=>$post_id], 'id');
             echo json_encode(array('comments'=>$comments));
         }
     }
-    /**
-     * [showSinglePost description]
-     * @param  Request $request [description]
-     * @return [type]           [description]
-     */
-    public function showSinglePost($name)
-    {
-        echo $name;
-    }
+
 }

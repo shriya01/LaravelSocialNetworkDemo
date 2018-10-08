@@ -60,6 +60,7 @@
                         </li>
                         @else
                         <ul class="navbar-nav">
+
                             <li class="nav-item">
                                 <a class="nav-link" href="{{url('friendSuggestionList')}}">Add New Friends</a>
                             </li>

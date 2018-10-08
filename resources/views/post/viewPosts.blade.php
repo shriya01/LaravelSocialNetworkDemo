@@ -45,8 +45,10 @@
 	<div class="row">
 		<div class="col-sm-8 gedf-main">
 			<div class="row">
-				<?php $count= count($posts); ?>
-				@foreach ($posts as $key => $value)
+			
+				@foreach ($posts as $key)
+
+
 				<div class="card gedf-card" style="width:100%;">
 					<div class="card-header">
 						<div class="d-flex justify-content-between align-items-center">
@@ -55,7 +57,7 @@
 									<img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
 								</div>
 								<div class="ml-2">
-									<div class="h5 m-0">{{ ucwords($posts[$key]['name']) }}</div>
+									<div class="h5 m-0"></div>
 								</div>
 							</div>
 							<div>
@@ -76,46 +78,38 @@
 					<div class="card-body">
 						<div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>10 min ago</div>
 						<a class="card-link" href="#">
-							<h5 class="card-title">{{$posts[$key]['post_title']}}</h5>
+							<h5 class="card-title">{{$key->post_title}}</h5>
 						</a>
 						<p class="card-text">
-							{{$posts[$key]['post_description']}}
+							{{$key->post_description}}
 						</p>
-						@if(!empty($posts[$key]['post_image']))
-						<img class="card-img-bottom" src="{{asset('public/files/'.$posts[$key]['post_image'])}}"  style="width:50%">
+						@if(!empty($key->post_image))
+						<img class="card-img-bottom" src="{{asset('public/files/'.$key->post_image)}}"  style="width:50%">
 						@endif
 					</div>
 					<div class="card-footer">
-						<a href="#" class="card-link card-link-like" id="card-link-like{{$posts[$key]['id']}}" data-id="{{$posts[$key]['id']}}"><i class="fa fa-gittip"></i>Like</a>
-						@if($posts[$key]['likes'] > 0)
-						<span id="likebadge{{$posts[$key]['id']}}" class="badge">{{$posts[$key]['likes']}}</span>
+						<a href="#" class="card-link card-link-like" id="card-link-like{{$key->id}}" data-id="{{$key->id}}"><i class="fa fa-gittip"></i>Like</a>
+						@if($key->likes > 0)
+						<span id="likebadge{{$key->id}}" class="badge">{{$key->likes}}</span>
 						@endif		
 					</a>
-					<a href="#" class="card-link card-link-comment" data-id="{{$posts[$key]['id']}}"><i class="fa fa-comment" ></i> Comment 
-						@if($posts[$key]['comments'] > 0)
-						<span id="commentbadge{{$posts[$key]['id']}}">{{$posts[$key]['comments']}}</span>
+					<a href="#" class="card-link card-link-comment" data-id="{{$key->id}}"><i class="fa fa-comment" ></i> Comment 
+						@if($key->comments > 0)
+						<span id="commentbadge{{$key->id}}">{{$key->comments}}</span>
 						@endif
 					</a>
-					<div style="display:none" class="card-link-comment-form" id="card-link-comment{{$posts[$key]['id']}}">
-						<form action='' method="post" id="comment-form{{$posts[$key]['id']}}">
+					<div style="display:none" class="card-link-comment-form" id="card-link-comment{{$key->id}}">
+						<form action='' method="post" id="comment-form{{$key->id}}">
 							@csrf
-							<input type="text" name="comment_text" id="comment_text{{$posts[$key]['id']}}" placeholder="Comment Here">
-							<input type="submit" name="addComment" value="Comment" class="ajaxSubmit btn btn-primary" data-id="{{$posts[$key]['id']}}">
+							<input type="text" name="comment_text" id="comment_text{{$key->id}}" placeholder="Comment Here">
+							<input type="submit" name="addComment" value="Comment" class="ajaxSubmit btn btn-primary" data-id="{{$key->id}}">
 						</form>
 					</div>
 					<br/>
-					@if($posts[$key]['comments_data'])
-								 @include('partials._comment_replies', ['comments' => $posts[$key]['comments_data'], 'post_id' => $posts[$key]['id'] ] )
-	
-					<div class="social-links">
-						{!! $result !!}
-					</div>
-
-					@endif
-
 				</div>
+				@include('partials._comment_replies', ['comments' => $key->comments_data->comments, 'post_id' => $key->id])
+
 			</div>
-			
 			@endforeach
 		</div>
 	</div>

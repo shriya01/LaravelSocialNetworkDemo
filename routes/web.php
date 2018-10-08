@@ -38,4 +38,6 @@ Route::post('addPost', 'PostController@submitPost');
 Route::get('likes/{id}','PostController@getNumberOfLikes')->name('likes');
 Route::post('posts/likechange', 'PostController@changeLikeStatus')->name('posts/likechange');
 Route::post('posts/addComment', 'PostController@addComment')->name('posts/addComment');
-Route::get('post.show/{name}', ['as'=>'post.show','uses'=>'PostController@showSinglePost']);
+;
+Route::post('/comment/store', 'CommentController@store')->name('comment.add');
+Route::post('/reply/store', 'CommentController@replyStore')->name('reply.add');

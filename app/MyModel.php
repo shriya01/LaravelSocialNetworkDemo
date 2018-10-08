@@ -102,8 +102,8 @@ class MyModel
     {
         return  $users = DB::table('post_comments')
             ->join('users', 'users.id', '=', 'post_comments.user_id')
-            ->select('name', 'post_id', 'post_comments.user_id', 'comment')
-            ->where('post_id', $post_id)
+            ->select('name', 'commentable_id', 'post_comments.user_id', 'comment')
+            ->where('commentable_id', $post_id)
             ->get();
     }
 }
