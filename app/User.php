@@ -22,10 +22,19 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    /**
+     * [verifyUser description]
+     * @return [type] [description]
+     */
     public function verifyUser()
     {
         return $this->hasOne('App\VerifyUser');
     }
+    /**
+     * [sendPasswordResetNotification description]
+     * @param  [type] $token [description]
+     * @return [type]        [description]
+     */
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));

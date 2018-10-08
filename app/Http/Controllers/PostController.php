@@ -9,7 +9,7 @@ use Validator;
 use App\MyModel;
 use DB;
 use Share;
-
+use App\Comment;
 class PostController extends Controller
 {
 
@@ -35,7 +35,7 @@ class PostController extends Controller
             $likes =  MyModel::getColumnCount('post_likes', ['post_id'=>$post_id], 'like');
             $comments =  MyModel::getColumnCount('post_comments', ['post_id'=>$post_id], 'id');
             $comments_data = MyModel::select('post_comments', ['post_id','user_id','comment'], ['post_id'=>$post_id]);
-            $comments_data = MyModel::getCommentsData($post_id);
+            $comments_data = Comment::find($post_id);
             $data['posts'][$key]["likes"] = $likes;
             $data['posts'][$key]["comments"] = $comments;
             $data['posts'][$key]["comments_data"] = $comments_data;
@@ -46,9 +46,6 @@ class PostController extends Controller
         }
         $data['count'] = count($user->getFriendRequests()->toArray());
         $data['friends_count'] = count($user->getAcceptedFriendships()->toArray());
-        # code...
-
-        
         return view('post.viewPosts', $data);
     }
     /**

@@ -105,18 +105,14 @@
 					</div>
 					<br/>
 					@if($posts[$key]['comments_data'])
-					@foreach($posts[$key]['comments_data'] as $commentkey => $commentvalue)
-					<ul class="list-group">
-						<h6 style="color:#1d68a7;">
-							{{ ucwords($commentvalue->name) }}
-						</h6> 
-						<input type="text" name="comment_text" readonly="" value="{{ $commentvalue->comment  }}">
-						@endforeach
-					</ul> 
+								 @include('partials._comment_replies', ['comments' => $posts[$key]['comments_data'], 'post_id' => $posts[$key]['id'] ] )
+	
 					<div class="social-links">
 						{!! $result !!}
 					</div>
+
 					@endif
+
 				</div>
 			</div>
 			
