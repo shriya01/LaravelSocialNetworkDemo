@@ -14,6 +14,9 @@ use App\Post;
 
 class PostController extends Controller
 {
+    /**
+     * [__construct description]
+     */
     public function __construct()
     {
         return $this->middleware('auth');
@@ -32,11 +35,9 @@ class PostController extends Controller
             $id =  $value['id'];
             array_push($array, $id);
         }
-        $data['posts'] = Post::whereIn('user_id',$array)->get();
-
+        $data['posts'] = Post::whereIn('user_id', $array)->get();
         foreach ($data['posts'] as $key => $value) {
             $post_id = $data['posts'][$key]['id'];
-       
             $likes =  MyModel::getColumnCount('post_likes', ['post_id'=>$post_id], 'like');
             $comments =  MyModel::getColumnCount('post_comments', ['commentable_id'=>$post_id], 'id');
             $comments_data = Post::find($post_id);
@@ -125,10 +126,9 @@ class PostController extends Controller
         $comment = $request->comment;
         $post_id = $request->postId;
         $user_id = Auth::user()->id;
-        if (MyModel::insert('post_comments', ['commentable_id'=>$post_id,'user_id'=>$user_id,'comment'=>$comment])) {
+        if (MyModel::insert('post_comments', ['commentable_id'=>$post_id,'user_id'=>$user_id,'commentable_type' => 'App\Post','comment'=>$comment])) {
             $comments =  MyModel::getColumnCount('post_comments', ['commentable_id'=>$post_id], 'id');
             echo json_encode(array('comments'=>$comments));
         }
     }
-
 }

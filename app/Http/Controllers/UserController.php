@@ -13,10 +13,10 @@ use DB;
 class UserController extends Controller
 {
     /**
-    * Create a new controller instance.
-    *
-    * @return void
-    */
+     * Create a new controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -37,10 +37,10 @@ class UserController extends Controller
     }
 
     /**
-    * [confirmFriendRequest description]
-    * @param  [type] $id [description]
-    * @return [type]     [description]
-    */
+     * [confirmFriendRequest description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function confirmFriendRequest($id)
     {
         $user_id =Auth::user()->id;
@@ -52,10 +52,10 @@ class UserController extends Controller
     }
 
     /**
-    * [confirmFriendRequest description]
-    * @param  [type] $id [description]
-    * @return [type]     [description]
-    */
+     * [confirmFriendRequest description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function rejectFriendRequest($id)
     {
         $user_id =Auth::user()->id;
@@ -66,10 +66,10 @@ class UserController extends Controller
         }
     }
     /**
-    * [cancelFriendRequest description]
-    * @param  [type] $id [description]
-    * @return [type]     [description]
-    */
+     * [cancelFriendRequest description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function cancelFriendRequest($id)
     {
         $user_id =Auth::user()->id;
@@ -80,12 +80,11 @@ class UserController extends Controller
             return redirect('friendSuggestionList')->with('success', 'friend request cancelled successfully');
         }
     }
-
     /**
-    * [getFriendList description]
-    * @param  [type] $id [description]
-    * @return [type]     [description]
-    */
+     * [getFriendList description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function getFriendList()
     {
         $user_id =Auth::user()->id;
@@ -96,10 +95,10 @@ class UserController extends Controller
         return view('user.FriendsList', $data);
     }
     /**
-    * [blockUser description]
-    * @param  [type] $id [description]
-    * @return [type]     [description]
-    */
+     * [blockUser description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function blockUser($id)
     {
         $user_id =Auth::user()->id;
@@ -110,10 +109,10 @@ class UserController extends Controller
         }
     }
     /**
-    * [unblockUser description]
-    * @param  [type] $id [description]
-    * @return [type]     [description]
-    */
+     * [unblockUser description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
     public function unblockUser($id)
     {
         $user_id =Auth::user()->id;
@@ -122,9 +121,9 @@ class UserController extends Controller
         $user->unblockFriend($friend);
     }
     /**
-    * [showPendingRequests description]
-    * @return [type] [description]
-    */
+     * [showPendingRequests description]
+     * @return [type] [description]
+     */
     public function showPendingRequests()
     {
         $user_id =Auth::user()->id;
@@ -141,9 +140,9 @@ class UserController extends Controller
         return view('user.pendingRequests', $data);
     }
     /**
-    * [friendSuggestionList description]
-    * @return [type] [description]
-    */
+     * [friendSuggestionList description]
+     * @return [type] [description]
+     */
     public function friendSuggestionList()
     {
         $user_id =Auth::user()->id;

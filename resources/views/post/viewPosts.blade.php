@@ -45,10 +45,7 @@
 	<div class="row">
 		<div class="col-sm-8 gedf-main">
 			<div class="row">
-			
 				@foreach ($posts as $key)
-
-
 				<div class="card gedf-card" style="width:100%;">
 					<div class="card-header">
 						<div class="d-flex justify-content-between align-items-center">
@@ -57,7 +54,7 @@
 									<img class="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="">
 								</div>
 								<div class="ml-2">
-									<div class="h5 m-0"></div>
+									<div class="h5 m-0">{{ucwords($key->user->name)}}</div>
 								</div>
 							</div>
 							<div>
@@ -108,7 +105,6 @@
 					<br/>
 				</div>
 				@include('partials._comment_replies', ['comments' => $key->comments_data->comments, 'post_id' => $key->id])
-
 			</div>
 			@endforeach
 		</div>
