@@ -16,3 +16,5 @@ yarn-error.log
 composer.json
 composer.lock
 tests
+/public/files
+resources/lang/vendor

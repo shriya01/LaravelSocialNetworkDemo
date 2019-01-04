@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 
+/**
+ * ResetPasswordController Class
+ * @category            Controller
+ * @DateOfCreation      19 March 2018 04:00 PM
+ * @ShortDescription    This class handles reset requests
+ */
 class ResetPasswordController extends Controller
 {
     /*
@@ -21,14 +27,16 @@ class ResetPasswordController extends Controller
     use ResetsPasswords;
 
     /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
+     * ResetPasswordController Class
+     * @category            Controller
+     * @DateOfCreation      19 March 2018 04:00 PM
+     * @ShortDescription    This class handles reset requests
      */
     protected $redirectTo = '/home';
 
     /**
-     * Create a new controller instance.
+     * @DateOfCreation      18 Sept 2018
+     * @ShortDescription   Create a new controller instance.
      *
      * @return void
      */

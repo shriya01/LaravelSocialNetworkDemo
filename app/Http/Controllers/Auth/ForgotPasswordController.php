@@ -5,6 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 
+/**
+ * ForgotPasswordController Class
+ * @category            Controller
+ * @DateOfCreation      20 September 2018 
+ * @ShortDescription    This class handles how to send reset password link when user clicks forgot password
+ */
 class ForgotPasswordController extends Controller
 {
     /*
@@ -21,7 +27,8 @@ class ForgotPasswordController extends Controller
     use SendsPasswordResetEmails;
 
     /**
-     * Create a new controller instance.
+     * @DateOfCreation      20 September 2018
+     * @ShortDescription    Create a new controller instance.
      *
      * @return void
      */
